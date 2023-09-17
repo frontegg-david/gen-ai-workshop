@@ -1,0 +1,15 @@
+{
+  "name": "@genai-workshop/source",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {},
+  "private": true,
+  "dependencies": {},
+  "devDependencies": {
+    "@nx/js": "16.8.1",
+    "@nx/workspace": "16.8.1",
+    "nx": "16.8.1",
+    "prettier": "^2.6.2",
+    "typescript": "~5.1.3"
+  }
+}
