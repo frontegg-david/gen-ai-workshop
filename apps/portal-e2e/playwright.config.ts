@@ -26,7 +26,8 @@ export default defineConfig({
     headless: false,
     baseURL,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    trace: process.env.AI_REPORT ? 'on' : 'on-first-retry',
+
   },
   /* Run your local dev server before starting the tests */
   webServer: {

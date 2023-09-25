@@ -17,28 +17,28 @@ const useQuickActions = () => {
     setTimeout(() => {
       setLoading(false)
       setQuickActions([ {
-        label: 'Overview',
+        label: 'Account settings',
         click: () => {
           console.log('dashboard')
         },
       }, {
-        label: 'App',
+        label: 'Add New User',
         click: () => {
           console.log('app')
         },
       }, {
-        label: 'App',
+        label: 'Display notifications',
         click: () => {
           console.log('app')
         },
       } ])
-    }, 4000)
+    }, 2000)
   }, [])
 
   return { loading, quickActions }
 }
 
-const NavigationQuickActions: FC = () => {
+export const NavigationQuickActions: FC = () => {
 
 
   const { loading, quickActions } = useQuickActions();
@@ -110,4 +110,3 @@ const NavigationQuickActions: FC = () => {
 
   </Box>
 }
-export default NavigationQuickActions;

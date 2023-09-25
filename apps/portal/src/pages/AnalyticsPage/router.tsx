@@ -8,5 +8,6 @@ export const AnalyticsPageRouter: NavigationRouteObject = {
   label: 'Analytics',
   path: '/analytics',
   element: <AnalyticsPage/>,
+  disabled: true,
   icon: <AnalyticsIcon/>
 }

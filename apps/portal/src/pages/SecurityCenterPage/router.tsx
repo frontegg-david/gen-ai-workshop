@@ -7,6 +7,7 @@ export const SecurityCenterPageRouter: NavigationRouteObject = {
   id: 'security-center-page',
   path: '/security-center',
   index: true,
+  disabled: true,
   element: <SecurityCenterPage/>,
   icon: <SecurityCenterIcon/>,
   label: 'Security Center'

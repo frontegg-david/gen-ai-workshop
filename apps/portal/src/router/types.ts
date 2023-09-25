@@ -6,4 +6,5 @@ export type NavigationRouteObject = RouteObject & {
   path: string;
   icon: ReactNode;
   label: ReactNode;
+  disabled?: boolean;
 }

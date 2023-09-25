@@ -21,7 +21,7 @@ const theme = extendTheme({
           fontWeight: 500,
           transition: 'background-color 200ms',
           '& .MuiSvgIcon-root': {
-            color:'inherit',
+            color: 'inherit',
             opacity: 0.8
           },
           '&.Mui-selected': {
@@ -40,7 +40,7 @@ const theme = extendTheme({
         root: {
           borderRadius: 16,
           backgroundColor: 'rgb(255, 255, 255)',
-          border:0,
+          border: 0,
           color: 'rgb(33, 43, 54)',
           transition: 'box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
           backgroundImage: 'none',
@@ -61,24 +61,26 @@ const theme = extendTheme({
       palette: {
         primary: {
           // generate palette for blue color from https://material.io/resources/color/#!/?view.left=0&view.right=0&primary.color=3F51B5
-          solidBg: '#0d6efd',
-          solidBorder: '#0d6efd',
-          solidHoverBg: '#0b5ed7',
-          solidHoverBorder: '#0a58ca',
-          solidActiveBg: '#0a58ca',
-          solidActiveBorder: '#0a53be',
-          solidDisabledBg: '#0d6efd',
-          solidDisabledBorder: '#0d6efd',
-          50: '#C0CCD9',
-          100: '#A5B8CF',
-          200: '#6A96CA',
-          300: '#4886D0',
-          400: '#2178DD',
-          500: '#096BDE',
-          600: '#1B62B5',
-          700: '#265995',
-          800: '#2F4968',
-          900: '#2F3C4C',
+          'solidBg': '#263621',
+          'solidBorder': '#202b1d',
+          'solidHoverBg': '#294022',
+          'solidHoverBorder': '#1d251b',
+          'solidActiveBg': '#1a2018',
+          'solidActiveBorder': '#171b15',
+          'solidDisabledBg': '#2c4b22',
+          'solidDisabledBorder': '#2b4622',
+          50: '#2c661a',
+          100: '#2d611d',
+          200: '#2d5620',
+          300: '#2c4b22',
+          400: '#294022',
+          500: '#263621',
+          600: '#202b1d',
+          700: '#1a2018',
+          800: '#131512',
+          900: '#0a0a09',
+
+
         },
 
         neutral: {

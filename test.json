@@ -1,0 +1,49 @@
+{
+  "path": "/overview",
+  "component": "Overview",
+  "name": "Overview",
+  "flows": [{
+    "name": "show important information",
+    "steps": [{
+      "action": ["find","scroll-to"],
+      "params":{"selector":"[ai=\"important-info\"]"}
+    }, {
+      "action": "scroll-to",
+      "params":{"selector":"[ai=\"important-info\"]"}
+    }, {
+      "action": "highlight",
+      "params":{"selector":"[ai=\"important-info\"]"}
+    }]
+  },{
+    "name": "filter overview by user",
+    "steps": [ {
+      "action": "find",
+      "params":{"selector":"[ai=\"filter-by-user\"]"}
+    }, {
+      "action": "highlight",
+      "params":{"selector":"[ai=\"filter-by-user\"]"}
+    }, {
+      "action": "focus",
+      "params":{"selector":"[ai=\"important-info\"]"}
+    }]
+  }, {
+    "name": "show overview by user [email]",
+    "steps": [{
+      "action": "goto",
+      "params":{"url":"/","waitUntil":"load"}
+    }, {
+      "action": "find",
+      "params":{"selector":"[ai=\"filter-by-user\"]"}
+    }, {
+      "action": "highlight",
+      "params":{"selector":"[ai=\"filter-by-user\"]"}
+    }, {
+      "action": "focus",
+      "params":{"selector":"[ai=\"important-info\"]"}
+    }, {
+      "action": "fill",
+      "params":{"selector":"[ai=\"important-info\"]", "value":"[email]" }
+    }]
+  }]
+
+}

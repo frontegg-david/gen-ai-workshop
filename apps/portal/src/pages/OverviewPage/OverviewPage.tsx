@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import { Grid } from '@mui/joy';
-import { Welcome, StatsCard } from '@genai-workshop/ui';
-
+import { NotificationsCard, Welcome, StatsCard } from '@genai-workshop/ui';
 
 
 export const OverviewPage: FC = () => {
@@ -9,11 +8,14 @@ export const OverviewPage: FC = () => {
 
   return <>
     <Grid container spacing={2} sx={{ flexGrow: 1 }}>
-      <Grid xs={8}>
+      <Grid xs={12} lg={8}>
         <Welcome/>
       </Grid>
-      <Grid xs={4}>
-        <Welcome/>
+      <Grid xs={12} lg={4}>
+        <NotificationsCard/>
+      </Grid>
+      <Grid lg={4} md={6} xs={12}>
+        <StatsCard title={'Total Active Users\n'}/>
       </Grid>
       <Grid lg={4} md={6} xs={12}>
         <StatsCard title={'Total Active Users\n'}/>
