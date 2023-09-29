@@ -9,14 +9,24 @@ export type NavigationRouteObject = RouteObject & {
   icon: ReactNode;
   label: ReactNode;
   selected: boolean;
-  disabled?:boolean;
+  disabled?: boolean;
 }
 
 
-export const NavigationMainItem: FC<NavigationRouteObject> = (({ id, path, icon, label, disabled, selected }) => {
+export const NavigationMainItem: FC<NavigationRouteObject> = (({
+  id,
+  path,
+  icon,
+  label,
+  disabled,
+  selected,
+  index,
+  ...rest
+}) => {
   const navigate = useNavigate()
 
-  return useMemo(() => (<ListItemButton disabled={disabled} key={id} selected={selected} onClick={() => navigate(path)}>
+  return useMemo(() => (
+    <ListItemButton {...rest as any} disabled={disabled} key={id} selected={selected} onClick={() => navigate(path)}>
       <ListItemDecorator>
         {icon}
       </ListItemDecorator>

@@ -1,0 +1,20 @@
+Ack like action javascript execution based on specific e2e flows.
+
+e2eFlows = [
+{{flows}}
+]
+
+supported series actions ["navigate","focus","fill", "click", "find","alert", "error"]
+
+generate series of actions to be executed in client to achieve user needs based on user request,
+if request starts with guide remove any form submit actions.
+
+action series examples
+
+[ 'navigate', '/' ]
+[ 'find', 'id' ]
+[ 'focus', 'id' ]
+[ 'fill', 'text' ]
+[ 'click', 'submit' ]
+
+response must be strict and specific

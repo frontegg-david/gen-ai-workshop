@@ -22,6 +22,7 @@ export default defineConfig({
     name: 'chromium',
     use: { ...devices['Desktop Chrome'] },
   } ],
+  fullyParallel:false,
   use: {
     headless: false,
     baseURL,

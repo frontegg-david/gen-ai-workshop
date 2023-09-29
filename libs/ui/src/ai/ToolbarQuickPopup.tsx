@@ -1,17 +1,20 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, FC, KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react';
 import Box from '@mui/joy/Box';
 import Input from '@mui/joy/Input';
 import SearchIcon from '@mui/icons-material/SearchRounded';
 import { Modal } from '@genai-workshop/ui';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { IconButton, Stack } from '@mui/joy';
+import { Button, IconButton, Stack } from '@mui/joy';
+import { useNavigate } from 'react-router-dom';
 
 
 export const ToolbarQuickPopup: FC = () => {
 
-  const [ result, setResults ] = useState([])
+  const navigate = useNavigate()
+  const [ result, setResults ] = useState<string[]>([])
   const inputRef = useRef<HTMLInputElement>(null)
   const [ modalOpen, setModalOpen ] = useState(false)
+  const [ isLoading, setIsLoading ] = useState(false)
   useHotkeys([ 'meta+k' ], (e) => {
     setModalOpen(true)
   }, {
@@ -28,6 +31,125 @@ export const ToolbarQuickPopup: FC = () => {
       })
     }
   }, [ modalOpen ])
+
+
+  const [ searchValue, setSearchValue ] = useState('')
+  const onSearchChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value)
+  }, [])
+
+  const sendAction = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
+
+    async function fetchAsync() {
+
+      const url = 'http://localhost:4000/ai'
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ cmd: searchValue })
+      });
+
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+
+      // This data is a ReadableStream
+      const data = response.body;
+      if (!data) {
+        return;
+      }
+
+      const reader = data.getReader();
+      const decoder = new TextDecoder();
+      let done = false;
+
+      while (!done) {
+        const { value, done: doneReading } = await reader.read();
+        done = doneReading;
+        const chunkValue = decoder.decode(value);
+
+        if(done){
+          break;
+        }
+
+        try {
+          const { action, param } = JSON.parse(chunkValue)
+          if (action === 'error') {
+            setResults([ `Error: ${param}` ])
+          } else {
+            setResults(res => [ ...res, JSON.stringify({ action, param }) ])
+          }
+        } catch (e) {
+          setResults([ 'Error: Failed to process command' ])
+        }
+      }
+    }
+
+    if (e.keyCode === 13) {
+      setResults([])
+      setIsLoading(true)
+      fetchAsync().then(() => {
+        setIsLoading(false)
+      })
+    }
+  }, [ searchValue, setResults ])
+
+
+  const execute = useCallback(() => {
+    function waitFor(selector: string):any {
+      console.log("waiting for selector", selector)
+      return new Promise((resolve) => {
+        if (document.querySelector(selector)) {
+          resolve(document.querySelector(selector));
+        } else {
+          const observer = new MutationObserver(() => {
+            if (document.querySelector(selector)) {
+              resolve(document.querySelector(selector));
+              observer.disconnect();
+            }
+          });
+          observer.observe(document.body, {
+            childList: true,
+            subtree: true
+          });
+        }
+      })
+    }
+
+    const process = async () => {
+
+      for (const r of result) {
+        const { action, param } = JSON.parse(r);
+
+        await new Promise(resolve => setTimeout(resolve, 500));
+        switch (action) {
+          case 'navigate':
+            navigate(param);
+            break;
+          case 'find':
+          case 'focus':
+            (await waitFor('[data-testid="' + param + '"]'))?.focus();
+            break;
+          case 'click':
+            (await waitFor('[data-testid="' + param + '"]'))?.click();
+            break;
+          case 'fill':
+            const input = document.activeElement as HTMLInputElement;
+            input.value = param;
+            const event = new Event('input', { bubbles: true, cancelable: true });
+            input.dispatchEvent(event);
+
+            break;
+        }
+      }
+    }
+
+    setModalOpen(false)
+    console.log("execute", result)
+    process()
+  }, [ navigate, result ])
 
   return <>
     <Stack direction={'row'} alignItems={'center'} justifyContent={'start'} height={'100%'} paddingX={1}>
@@ -64,7 +186,9 @@ export const ToolbarQuickPopup: FC = () => {
             width: 'calc(100% - 60px)',
             flex: 1
           }}
-
+          onKeyUp={sendAction}
+          onChange={onSearchChange}
+          value={searchValue}
           startDecorator={<SearchIcon/>}
         />
         <Box sx={{
@@ -83,12 +207,19 @@ export const ToolbarQuickPopup: FC = () => {
 
 
       <Box height={400}>
+        {isLoading ? "Loading...": "DONE"}
+        <br/>
         {result.length > 0 ? <>
-
+          {result}
+          {!result[0].startsWith('Error:') && !isLoading && <>
+            <Button onClick={execute}>Execute</Button>
+          </>}
         </> : <>
           Search
         </>}
       </Box>
+
+
     </Modal>
   </>
 }

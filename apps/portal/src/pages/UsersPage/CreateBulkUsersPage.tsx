@@ -4,7 +4,7 @@ import { Grid, Container, Stack, Typography, Input, Button } from '@mui/joy';
 import Box from '@mui/joy/Box';
 import { useNavigate } from 'react-router-dom';
 
-const CreateNewUserPage: FC = () => {
+const CreateBulkUsersPage: FC = () => {
   const navigate = useNavigate()
 
   const addUsers = useCallback(() => {
@@ -36,4 +36,4 @@ const CreateNewUserPage: FC = () => {
   </Container>
 }
 
-export default CreateNewUserPage
+export default CreateBulkUsersPage

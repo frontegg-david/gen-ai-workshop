@@ -4,7 +4,7 @@ import AnalyticsIcon from '@mui/icons-material/InsightsRounded';
 
 const AnalyticsPage = lazy(() => import('./index'));
 export const AnalyticsPageRouter: NavigationRouteObject = {
-  id: 'analytics-page',
+  id: 'analytics_page',
   label: 'Analytics',
   path: '/analytics',
   element: <AnalyticsPage/>,

@@ -4,7 +4,7 @@ import { NavigationRouteObject } from '../../router/types';
 
 const SecurityCenterPage = lazy(() => import('./index'));
 export const SecurityCenterPageRouter: NavigationRouteObject = {
-  id: 'security-center-page',
+  id: 'security_center_page',
   path: '/security-center',
   index: true,
   disabled: true,

@@ -5,10 +5,13 @@ import { Table } from '@genai-workshop/ui'
 import Box from '@mui/joy/Box';
 import PlusIcon from '@mui/icons-material/AddRounded';
 import { useUsersData } from './hooks';
+import { useNavigate } from 'react-router-dom';
+import { UsersPageActions } from './UsersPageActions';
 
 export const UsersPage: FC = () => {
 
   const users = useUsersData()
+  const navigate = useNavigate()
 
 
   const columns = useMemo(() => {
@@ -27,18 +30,15 @@ export const UsersPage: FC = () => {
           Users
         </Typography>
       </Box>
-      <Box>
-        <Button startDecorator={<PlusIcon/>}>
-          Add User
-        </Button>
-      </Box>
+
+      <UsersPageActions/>
     </Stack>
     <Box sx={{
       borderRadius: '12px',
       overflow: 'hidden',
       boxShadow: 'rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px',
     }}>
-      <Table columns={columns} data={users}>
+      <Table columns={columns} data={users} data-testid="users_table">
         {row => <tr key={row.id}>
           <td style={{ width: columns[0].width }}>
             <Stack direction={'row'} alignItems="center" gap={2}>

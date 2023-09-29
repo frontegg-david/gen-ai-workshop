@@ -1,0 +1,33 @@
+{
+  page: 'users_page',
+  title: 'Add a new user',
+  description: 'Check if a user exists by email, if not, add a new user to the portal',
+  keyword:[
+    'Add a new user',
+    'Guide me on adding a new user',
+    'Add a new user by following these steps',
+    'Execute the process to add a new user',
+    "Add email as Name",
+    "Add email to the portal",
+    "Add user with email"
+  ],
+  functions: [isUserExists(user)],
+  flows: isUserExists(email) ?
+    [[ 'error', 'user with {{email}} already exists' ] ]
+      :
+    [
+      [ 'navigate', '/' ],
+      [ 'focus', 'nav_users_page' ],
+      [ 'click', 'nav_users_page' ],
+      [ 'focus', 'add_user_button' ],
+      [ 'click', 'add_user_button' ],
+      [ 'find', 'full_name' ],
+      [ 'focus', 'full_name' ],
+      [ 'fill', getFullName() ],
+      [ 'focus', 'email' ],
+      [ 'fill', getEmailAddress() ],
+      [ 'focus', 'submit_button' ],
+      [ 'click', 'submit_button' ],
+      [ 'focus', 'users_table' ]
+    ]
+}

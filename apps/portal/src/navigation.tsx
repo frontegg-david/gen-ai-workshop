@@ -22,14 +22,14 @@ export const NavigationMainItems: FC = () => {
   const matched = useMatches();
   const selectedId = matched.length > 1 ? matched[1].id : undefined;
   return useMemo(() => navigationMainRoutes.map((route) =>
-    <NavigationMainItem key={route.id} {...route} selected={selectedId === route.id}/>
+    <NavigationMainItem key={route.id} data-testid={`nav_${route.id}`} {...route} selected={selectedId === route.id}/>
   ), [ selectedId ]);
 }
 export const NavigationManagementItems: FC = () => {
   const matched = useMatches();
   const selectedId = matched.length > 1 ? matched[1].id : undefined;
   return useMemo(() => navigationManagementRoutes.map((route) =>
-    <NavigationMainItem key={route.id} {...route} selected={selectedId === route.id}/>
+    <NavigationMainItem key={route.id} data-testid={`nav_${route.id}`} {...route} selected={selectedId === route.id}/>
   ), [ selectedId ]);
 }
 

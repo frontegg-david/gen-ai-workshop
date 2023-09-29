@@ -14,26 +14,27 @@ export interface TableProps<T = any> {
   children: (row: T, index: number) => ReactNode;
 }
 
-export const Table: FC<TableProps> = (props) => {
+export const Table: FC<TableProps> = ({ columns, data, children, ...props }) => {
 
 
-  return <MuiTable sx={{
+  return <MuiTable  hoverRow sx={{
     '--TableCell-headBackground': 'rgb(244, 246, 248)',
     '--unstable_TableCell-height': '54px',
     '--Table-headerUnderlineThickness': '0',
     '--TableCell-borderColor': 'rgb(241, 243, 244)',
     '--TableCell-paddingX': '24px',
+    '--TableRow-hoverBackground':'rgba(145, 158, 171, 0.08)'
 
-  }}>
+  }} {...props as any}>
     <thead>
     <tr>
-      {props.columns.map((column) => {
+      {columns.map((column) => {
         return <th style={{ verticalAlign: 'middle', width: column.width }} key={column.name}>{column.label}</th>
       })}
     </tr>
     </thead>
     <tbody>
-    {props.data.map(props.children)}
+    {data.map(children)}
     </tbody>
   </MuiTable>
 }

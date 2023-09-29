@@ -4,7 +4,7 @@ import OverviewIcon from '@mui/icons-material/SpaceDashboardRounded';
 
 const OverviewPage = lazy(() => import('./index'));
 export const OverviewPageRouter: NavigationRouteObject = {
-  id:'overview-page',
+  id:'overview_page',
   path: '/',
   index: true,
   element: <OverviewPage/>,

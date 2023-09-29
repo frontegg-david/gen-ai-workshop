@@ -6,16 +6,22 @@
   "targets": {
     "build": {
       "executor": "@nx/esbuild:esbuild",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "defaultConfiguration": "production",
       "options": {
         "platform": "node",
         "outputPath": "dist/apps/ai-model",
-        "format": ["cjs"],
+        "format": [
+          "cjs"
+        ],
         "bundle": false,
         "main": "apps/ai-model/src/main.ts",
         "tsConfig": "apps/ai-model/tsconfig.app.json",
-        "assets": ["apps/ai-model/src/assets"],
+        "assets": [
+          "apps/ai-model/src/assets"
+        ],
         "generatePackageJson": true,
         "esbuildOptions": {
           "sourcemap": true,
@@ -40,7 +46,9 @@
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "ai-model:build"
+        "buildTarget": "ai-model:build",
+        "inspect": "inspect",
+        "port": 0
       },
       "configurations": {
         "development": {
@@ -53,14 +61,20 @@
     },
     "lint": {
       "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["apps/ai-model/**/*.ts"]
+        "lintFilePatterns": [
+          "apps/ai-model/**/*.ts"
+        ]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "apps/ai-model/jest.config.ts",
         "passWithNoTests": true

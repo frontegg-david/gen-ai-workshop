@@ -1,0 +1,28 @@
+{
+  page: 'users_page',
+  title: 'Add bulk of users',
+  description: 'Add bulk of users separated by comma to the portal',
+  keyword:[
+    'Add multiple users at once',
+    'Bulk add users',
+    'Guide me on adding users in bulk',
+    'Add multiple users in one go by following these steps',
+    'Add bulk of users to the portal',
+    'Add email1 and email2 to the portal',
+    'Add email1,email2,email3',
+  ],
+  flows: [
+        [ 'navigate', '/' ],
+        [ 'wait', 1000 ],
+        [ 'find', 'nav_users_page' ],
+        [ 'click', 'nav_users_page' ],
+        [ 'find', 'add_user_dropdown_button' ],
+        [ 'click', 'add_user_dropdown_button' ],
+        [ 'find', 'add_bulk_users_button' ],
+        [ 'click', 'add_bulk_users_button' ],
+        [ 'find', 'emails' ],
+        [ 'fill', '{{emails}}'],
+        [ 'find', 'submit_button' ],
+        [ 'click', 'submit_button' ]
+    ]
+}
