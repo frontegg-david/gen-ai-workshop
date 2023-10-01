@@ -8,6 +8,8 @@ const openai = new OpenAI({
   apiKey: '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'
 });
 
+const model = 'gpt-3.5-turbo-0613'
+
 function isUserExists({ email }) {
 
   console.log('isUserExists', email);
@@ -17,7 +19,10 @@ function isUserExists({ email }) {
 export async function runConversation(res: Response, userCommand: string) {
   console.log('running command', userCommand)
 
-  const systemContent = readFileSync(join(process.cwd(), 'apps/backend/src/assets/prompts/add-new-user.txt'), 'utf8')
+  const temp = readFileSync(join(process.cwd(), 'apps/backend/src/assets/prompts/template.txt'), 'utf8')
+  const act = readFileSync(join(process.cwd(), 'apps/backend/src/assets/prompts/add-new-user.txt'), 'utf8')
+
+  const systemContent = temp.replace('{{flows}}', act.trim())
   // Step 1: send the conversation and available functions to GPT
   const messages: any[] = [
     {
@@ -26,11 +31,11 @@ export async function runConversation(res: Response, userCommand: string) {
     },
     {
       'role': 'user',
-      'content': 'example specific action'
+      'content': 'example user command'
     },
     {
       'role': 'assistant',
-      'content': '[\'navigate\',  \'/example\']\n[ \'waitForTimeout\', 1000 ]\n[ \'focus\', \'specific select\' ]\n[ \'fill\', \'specific content\' ]'
+      'content': '[\'navigate\',  \'/page\']\n[ \'focus\', \'based on user command\' ]\n[ \'fill\', \'content based on user content\' ]'
     },
     {
       'role': 'user',
@@ -55,9 +60,10 @@ export async function runConversation(res: Response, userCommand: string) {
   ];
 
   const response = await openai.chat.completions.create({
-    model: 'gpt-3.5-turbo-16k-0613',
+    model,
     messages: messages,
     functions: functions,
+    temperature: 0.5,
     function_call: { name: 'isUserExists' },  // auto is default, but we'll be explicit
   });
   const responseMessage = response.choices[0].message;
@@ -87,8 +93,9 @@ export async function runConversation(res: Response, userCommand: string) {
 
     console.log('extend conversation with function response')
     const secondResponse = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo-16k-0613',
+      model,
       messages: messages,
+      temperature: 0.5,
       stream: true,  // stream the response back from GPT
     });  // get a new response from GPT where it can see the function response
 
@@ -97,6 +104,7 @@ export async function runConversation(res: Response, userCommand: string) {
     console.log('response from GPT', it)
     let buffer = ''
     let m = await it.next()
+    console.log('mmmm', m.value.choices[0].delta.content)
     while (!m.done) {
       if (m.done) {
         return m.value
@@ -122,3 +130,4 @@ export async function runConversation(res: Response, userCommand: string) {
 
   }
 }
+

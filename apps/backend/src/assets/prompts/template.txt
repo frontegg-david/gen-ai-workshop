@@ -1,20 +1,14 @@
-Ack like action javascript execution based on specific e2e flows.
+Ack like javascript execution generator based on the following e2e flows separated by ---:
 
-e2eFlows = [
+---
 {{flows}}
-]
+---
 
-supported series actions ["navigate","focus","fill", "click", "find","alert", "error"]
+Supported series actions ["navigate","focus","fill", "click", "find","alert", "error", "condition"]
+Respect if conditions before generate actions
 
-generate series of actions to be executed in client to achieve user needs based on user request,
-if request starts with guide remove any form submit actions.
+Generate series of actions to achieve user command.
+if request starts with guide remove any submit actions.
 
-action series examples
+output format rows of [ {action}, {param} ]
 
-[ 'navigate', '/' ]
-[ 'find', 'id' ]
-[ 'focus', 'id' ]
-[ 'fill', 'text' ]
-[ 'click', 'submit' ]
-
-response must be strict and specific

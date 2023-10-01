@@ -1,0 +1,25 @@
+
+[ 'navigate', '/' ],
+[ 'focus', 'nav_users_page' ]
+[ 'click', 'nav_users_page' ]
+
+[ 'condition', 'isUserExists(email)',
+
+  [
+    [ 'focus', 'add_user_button' ]
+    [ 'click', 'add_user_button' ]
+    [ 'find', 'full_name' ]
+    [ 'focus', 'full_name' ]
+    [ 'fill', getFullName() ]
+    [ 'focus', 'email' ]
+    [ 'fill', getEmailAddress() ]
+    [ 'focus', 'submit_button' ]
+    [ 'click', 'submit_button' ]
+    [ 'focus', 'users_table']
+  ],
+
+  [
+    [ 'focus', 'users_table']
+    [ 'error', 'user with {{email}} already exists' ]
+  ]
+]

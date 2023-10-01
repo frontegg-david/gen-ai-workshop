@@ -4,6 +4,7 @@ import { runConversation } from './command';
 import cors from 'cors'
 import bodyParser from 'body-parser'
 import { embedding } from './embeddings';
+import { getDynamicOverviewBlocks } from './overview';
 
 
 const host = process.env.HOST ?? 'localhost';
@@ -37,6 +38,15 @@ app.post('/ai', async (req, res) => {
 
 });
 
+app.get('/ai', async (req, res) => {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+
+  await runConversation(res, (req.query as any)['cmd']!)
+
+});
+
 
 app.get('/user', async (req, res) => {
 
@@ -47,6 +57,13 @@ app.get('/user', async (req, res) => {
     res.send({ error: 'user not found' }).status(404);
   }
 });
+
+
+app.post('/overview', async (req, res) => {
+  console.log('overview', req.body)
+  res.send(await getDynamicOverviewBlocks(req.body)).status(200);
+});
+
 
 app.listen(port, host, () => {
   console.log(`[ ready ] http://${host}:${port}`);

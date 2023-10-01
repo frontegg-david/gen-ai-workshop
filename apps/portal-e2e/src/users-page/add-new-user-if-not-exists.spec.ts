@@ -1,5 +1,6 @@
 import { test } from '@playwright/test';
 import { faker } from '@faker-js/faker';
+import {isUserExists} from './helpers'
 
 test('Add a new user if not exists', async ({ page }) => {
   await page.goto('/');
@@ -11,9 +12,10 @@ test('Add a new user if not exists', async ({ page }) => {
   const fullName = faker.person.fullName()
   const email = faker.internet.email({ firstName: fullName })
 
-  const res = await page.request.get(`http://localhost:4000/user?email=${email}`)
-  if(res.ok()){
+  const userExists = await isUserExists(email)
+  if(userExists){
     await page.getByTestId('users_table').focus()
+    alert(`user already ${email} exists`)
   }else {
     await page.getByTestId('add_user_button').focus()
     await page.getByTestId('add_user_button').click()
