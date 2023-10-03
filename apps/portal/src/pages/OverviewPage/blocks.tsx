@@ -1,4 +1,4 @@
-import { StatsCard, PieChartCard, AxesChartCard, BgStatsCard } from '@genai-workshop/ui';
+import { StatsCard, PieChartCard, AxesChartCard, BgStatsCard, BarChartCard } from '@genai-workshop/ui';
 import { Grid } from '@mui/joy';
 
 export const buildBlock = (block: any) => {
@@ -21,6 +21,10 @@ export const buildBlock = (block: any) => {
     case 'BgStatsCard':
       return <Grid key={block.id} md={block.cols} xs={12}>
         <BgStatsCard  {...block}/>
+      </Grid>
+    case 'BarChartCard':
+      return <Grid key={block.id} md={block.cols} xs={12}>
+        <BarChartCard  {...block}/>
       </Grid>
     default:
       return null;

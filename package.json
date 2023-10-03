@@ -9,7 +9,8 @@
     "e2e:ai": "AI_REPORT=true nx e2e portal-e2e --skipInstall --skip-nx-cache ",
     "start:backend": "nx serve backend",
     "start:portal": "nx serve portal",
-    "start:ai-model": "nx serve ai-model"
+    "start:ai-model": "nx serve ai-model",
+    "e2e:report": "playwright show-report dist/.playwright/apps/portal-e2e/playwright-report"
   },
   "private": true,
   "dependencies": {

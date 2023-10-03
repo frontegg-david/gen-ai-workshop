@@ -143,21 +143,40 @@ export const overviewSections = () => [
       value: faker.number.int({ min: 6000, max: 12000 }),
       chartData: Array(14).fill(0).map((x, i) => faker.number.int({ min: 100 + i * 5, max: 300 + i * 5 })),
     } ],
-  }, {
+  },
+  {
     id: 'financial_balance_history_section',
     description: 'Financial Balance History Section (Balance Statistics, Recent Transitions)',
     items: [ {
       id: 'balance_statistics',
       title: 'Balance Statistics',
       type: 'BarChartCard',
-      cols: 8
+      cols: 8,
+
+      values: [{
+        name: "Income",
+        color: "#00A76F",
+        data: Array(12).fill(0).map(() => faker.number.int({
+          min: 50,
+          max: 100
+        }))
+      },{
+        name: "Expenses",
+        color: "#FFAB00",
+        data: Array(12).fill(0).map(() => faker.number.int({
+          min: 30,
+          max: 70
+        }))
+      }]
+
     }, {
       id: 'recent_transitions',
       title: 'Recent Transitions',
       type: 'ListCard',
       cols: 4
     } ],
-  }, {
+  },
+  {
     id: 'product_stats_section',
     description: 'Product Stats Section (Product News, Product Sold, Customer Conversion Rates)',
     items: [
@@ -182,7 +201,8 @@ export const overviewSections = () => [
         cols: 4
       },
     ]
-  }, {
+  },
+  {
     id: 'support_stats_section',
     description: 'Support Stats Section (Tickets By type, Total Opened/Resolved Tickets)',
     items: [
@@ -218,7 +238,9 @@ export const overviewSections = () => [
       },
 
     ]
-  }
+  },
+
+
 ]
 
 export const overviewBlocks = [

@@ -20,7 +20,7 @@ async function run() {
   console.log('generate prompts')
   const prompts = await Promise.all(withSuggestions.map(generateFlowPrompts))
 
-  console.log('done')
+  console.log('generate embedding vector')
 }
 
 run()

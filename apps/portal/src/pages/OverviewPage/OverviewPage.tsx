@@ -33,6 +33,7 @@ export const OverviewPage: FC = () => {
           {data.map(buildBlock)}
         </>
       }
+
       {/*<Grid lg={4} md={6} xs={12}>*/}
       {/*  <StatsCard title={'Total Active Users\n'}/>*/}
       {/*</Grid>*/}
