@@ -15,7 +15,7 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <DummyDataProvider value={dummyData.support}>
+  <DummyDataProvider value={dummyData.financials}>
     <QueryClientProvider client={queryClient}>
       <CssVarsProvider theme={theme}>
         <CssBaseline/>

@@ -1,10 +1,15 @@
 import { E2EReport, FlowPrompt, WithSuggestions } from './types';
 import OpenAI from 'openai';
 import Handlebars from 'handlebars';
+import { generateReportExample } from './prompt-example';
 
 const openai = new OpenAI({
-  apiKey: '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'
+  apiKey: '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',
+  // organization: 'org-JtS1lr9q306h8n8CgRUri5AE'
 });
+
+const model = 'gpt-3.5-turbo-16k';
+const temperature = 1
 
 export const generateSuggestions = async (report: E2EReport): Promise<WithSuggestions<E2EReport>> => {
 
@@ -16,7 +21,7 @@ export const generateSuggestions = async (report: E2EReport): Promise<WithSugges
   })
 
   const response = await openai.chat.completions.create({
-    model: 'gpt-3.5-turbo',
+    model,
     messages: [
       {
         'role': 'system',
@@ -34,7 +39,7 @@ output example:
         content,
       }
     ],
-    temperature: .8,
+    temperature,
     max_tokens: 256,
     top_p: 1,
     frequency_penalty: 0,
@@ -44,7 +49,7 @@ output example:
   try {
     const suggestions = JSON.parse(response.choices[0].message.content)
     return { ...report, suggestions }
-  }catch (e){
+  } catch (e) {
     console.log(response.choices[0].message.content)
   }
 }
@@ -62,32 +67,66 @@ export const generateFlowPrompts = async (report: WithSuggestions<E2EReport>): P
 
 
   const response = await openai.chat.completions.create({
-    model: 'gpt-3.5-turbo-16k',
+    model,
     messages: [
       {
         'role': 'system',
-        'content': 'Act as e2e to javascript generator that\nreceive input of e2e test case and generate object represent the flow to be executed when user ask for a specific command.\n\n'
+        'content': `Act as e2e to javascript generator that
+receive input of e2e test case and generate object represent the flow to be executed when user ask for a specific command.
+`
       },
       {
         'role': 'user',
-        'content': 'file name: test-case-name.spec.ts\npage name: test active page\n\ncode: \n```\nimport { test } from \'@playwright/test\';\nimport { faker } from \'@faker-js/faker\';\n\n\ntest(\'add new user\', async ({ page }) => {\n  await page.goto(\'/users\');\n  await page.waitForTimeout(1000);\n\n  await page.getByTestId(\'add_user_button\').focus()\n  await page.getByTestId(\'add_user_button\').click()\n\n  const fullName = faker.person.fullName()\n\n  await page.getByTestId(\'full_name\').focus()\n  await page.getByTestId(\'full_name\').fill(fullName)\n\n  const email = faker.internet.email({ firstName: fullName })\n  await page.getByTestId(\'email\').focus()\n  await page.getByTestId(\'email\').fill(email)\n\n  await page.getByTestId(\'submit_button\').focus()\n  await page.getByTestId(\'submit_button\').click()\n\n  await page.getByText(email).focus()\n})\n```\n\ne2e report'
+        'content': generateReportExample.user
       },
       {
         'role': 'assistant',
-        'content': '{\n  page: \'users_pages\',\n  title: \'Add a new user\',\n  description: \'add a new user to the portal by given a full name and email address\',\n  flow: [\n    [ \'navigate\', \'/users\' ],\n    [ \'focus\', \'add_user_button\' ],\n    [ \'click\', \'add_user_button\' ],\n    [ \'find\', \'full_name\' ],\n    [ \'focus\', \'full_name\'],\n    [ \'fill\', getFullName()],\n    [ \'focus\', \'email\' ],\n    [ \'fill\', getEmailAddress()],\n    [ \'focus\', \'submit_button\' ],\n    [ \'click\', \'submit_button\' ],\n    [ \'focus\', `text={{email}}` ],\n  ]\n}'
+        'content': generateReportExample.assistant
       },
       {
         'role': 'user',
         content
       }
     ],
-    temperature: 0.73,
+    temperature,
     max_tokens: 1000,
-    top_p: 1,
-    frequency_penalty: 0,
-    presence_penalty: 0,
   });
 
-    const prompt = response.choices[0].message.content
-    return { prompt, ...report }
+  const prompt = response.choices[0].message.content
+  return { prompt, ...report }
 }
+
+
+export const generateCodeDescription = async (report: FlowPrompt): Promise<FlowPrompt> => {
+  const input = 'file name: {{fileName}}\npage name: {{pageName}}\n\ncode: \n```\n{{code}}\n```'
+
+  const content = Handlebars.compile(input)({
+    fileName: report.fileName,
+    pageName: report.pageName,
+    code: report.code
+  })
+
+
+  const response = await openai.chat.completions.create({
+    model,
+    messages: [
+      {
+        'role': 'system',
+        'content': `Act as pseudo code writer that convert code to action flow based on if conditions.
+The pseudo must be with machine tone that can be effective recognized by ai`
+      },
+      {
+        'role': 'user',
+        content
+      }
+    ],
+    temperature,
+    max_tokens: 1000,
+  });
+
+  const codeDescription = response.choices[0].message.content
+  return { ...report, codeDescription }
+}
+
+
+

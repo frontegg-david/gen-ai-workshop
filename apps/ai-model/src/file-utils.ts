@@ -1,8 +1,9 @@
-import { readdirSync, existsSync } from 'fs';
+import { readdirSync, unlinkSync, writeFileSync, existsSync } from 'fs';
 import { dirname, basename, join } from 'path';
 import * as process from 'process';
 import StreamZip from 'node-stream-zip';
 import { E2EReport } from './types';
+
 
 const getE2EFiles = (): [ string[], string ] => {
   const e2eDir = join(process.cwd(), './dist/.playwright/apps/portal-e2e/test-output')
@@ -16,7 +17,7 @@ export const getE2EReports = async () => {
     // extract trace.zip file
     const traceZip = join(e2eDir, file, 'trace.zip')
 
-    if(!existsSync(traceZip)) continue;
+    if (!existsSync(traceZip)) continue;
     console.log(traceZip)
 
     // read zip file content
@@ -74,3 +75,16 @@ export const getE2EReports = async () => {
   return reports
 }
 
+
+const outputFilePath = join(process.cwd(), './apps/backend/src/assets/prompts/command/flows.txt')
+
+export const deleteOutputFileIfExists = () => {
+  if (existsSync(outputFilePath)) {
+    unlinkSync(outputFilePath)
+  }
+}
+
+export const appendToOutputFile = (content: string) => {
+
+  writeFileSync(outputFilePath, content, { flag: 'a' })
+}

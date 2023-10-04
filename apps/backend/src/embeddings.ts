@@ -27,12 +27,12 @@ export async function embedding() {
 
   const index = pinecone.Index('flows');
 
-  const addNewUser = readFileSync(join(process.cwd(), 'apps/backend/src/assets/prompts/add-new-user.txt'), 'utf8')
-  const addBulkdOfUsers = readFileSync(join(process.cwd(), 'apps/backend/src/assets/prompts/add-bulk-of-user.txt'), 'utf8')
-  const texts = [
-    addNewUser,
-    addBulkdOfUsers
-  ]
+  // const addNewUser = readFileSync(join(process.cwd(), 'apps/backend/src/assets/prompts/add-new-user.txt'), 'utf8')
+  // const addBulkdOfUsers = readFileSync(join(process.cwd(), 'apps/backend/src/assets/prompts/add-bulk-of-user.txt'), 'utf8')
+  // const texts = [
+  //   addNewUser,
+  //   addBulkdOfUsers
+  // ]
 
   // for (const text of texts) {
   //   const embedding = await generateEmbedding(text);

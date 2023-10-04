@@ -15,5 +15,6 @@ export type WithSuggestions<T> = T & {
 
 export type FlowPrompt = E2EReport & {
   prompt: string;
+  codeDescription?: string;
 }
 

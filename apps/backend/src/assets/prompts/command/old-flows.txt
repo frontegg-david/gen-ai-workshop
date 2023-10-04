@@ -1,0 +1,78 @@
+# Add a new user if not exists
+
+## Description
+This test is designed to add a new user to the system if the user does not already exist. It uses faker to generate random but valid data for testing, and Playwright to simulate user interactions with the web page. If the user already exists, an alert is triggered, and the test returns early.
+
+## Flow
+Initialize Test Data
+
+Generate a full name and email using faker.
+Check if a user with the generated email already exists using isUserExists.
+User Exists Flow
+
+If a user with the provided email exists:
+a. Focus on the users table.
+b. Trigger an alert mentioning that the user already exists.
+c. End the test.
+Add New User Flow
+
+If no user with the provided email exists:
+a. Navigate to the home page.
+b. Wait for 1 second.
+c. Navigate to the users page by focusing and clicking on the navigation link.
+d. Start the process to add a new user by focusing and clicking the 'add user' button.
+e. Fill the full name and email fields with the generated data.
+f. Submit the new user form by focusing and clicking the 'submit' button.
+g. Finally, focus on the users table.
+
+## Code
+
+import { test } from '@playwright/test';
+import { faker } from '@faker-js/faker';
+import {isUserExists} from './helpers'
+
+test('Add a new user if not exists', async ({ page }) => {
+ const fullName = faker.person.fullName()
+ const email = faker.internet.email({ firstName: fullName })
+
+ const userExists = await isUserExists(email)
+ if(userExists){
+   alert(`user already ${email} exists`)
+   return;
+ } else {
+    await page.goto('/');
+    await page.waitForTimeout(1000);
+
+    await page.getByTestId('nav_users_page').focus()
+    await page.getByTestId('nav_users_page').click()
+
+   await page.getByTestId('add_user_button').focus()
+   await page.getByTestId('add_user_button').click()
+
+   await page.getByTestId('full_name').focus()
+   await page.getByTestId('full_name').fill(fullName)
+
+   await page.getByTestId('email').focus()
+   await page.getByTestId('email').fill(email)
+
+   await page.getByTestId('submit_button').focus()
+   await page.getByTestId('submit_button').click()
+
+   await page.getByTestId('users_table').focus()
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

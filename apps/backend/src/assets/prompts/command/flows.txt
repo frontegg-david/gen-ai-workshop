@@ -1,0 +1,177 @@
+# {add bulk of users}
+
+1. Go to "/"
+2. Wait for 1000ms
+3. Focus on element with data-testid "nav_users_page"
+4. Click on element with data-testid "nav_users_page"
+5. Focus on element with data-testid "add_bulk_users_button"
+6. Click on element with data-testid "add_bulk_users_button"
+7. Generate a list of random email addresses
+8. Focus on element with data-testid "emails"
+9. Fill element with data-testid "emails" with the generated email addresses
+10. Focus on element with data-testid "submit_button"
+11. Click on element with data-testid "submit_button"
+12. Focus on element with data-testid "users_table"
+
+## Flow
+Pseudo code:
+
+1. Open the users page.
+2. Wait for 1 second.
+3. Focus on the navigation button for the users page.
+4. Click on the navigation button for the users page.
+5. Focus on the "Add Bulk Users" button.
+6. Click on the "Add Bulk Users" button.
+7. Generate a list of random email addresses using the Faker library.
+8. Focus on the input field for the emails.
+9. Fill the input field with the generated emails, separated by commas.
+10. Focus on the submit button.
+11. Click on the submit button.
+12. Focus on the users table.
+
+## Code
+import { test } from '@playwright/test';
+import { faker } from '@faker-js/faker';
+
+test('add bulk of users', async ({ page }) => {
+
+  await page.goto('/');
+  await page.waitForTimeout(1000);
+
+  await page.getByTestId('nav_users_page').focus()
+  await page.getByTestId('nav_users_page').click()
+
+  await page.getByTestId('add_bulk_users_button').focus()
+  await page.getByTestId('add_bulk_users_button').click()
+
+  const emails = [ faker.internet.email(), faker.internet.email(), faker.internet.email() ].join(',')
+
+  await page.getByTestId('emails').focus()
+  await page.getByTestId('emails').fill(emails)
+
+
+  await page.getByTestId('submit_button').focus()
+  await page.getByTestId('submit_button').click()
+
+  await page.getByTestId('users_table').focus()
+})
+
+
+---
+
+# Add a new user if not exists
+
+The following is the flow of actions that will be executed:
+
+1. Go to the home page
+   - Action: `page.goto`
+   - Parameters: `{ "url": "/" }`
+
+2. Wait for 1000 milliseconds
+   - Action: `page.waitForTimeout`
+   - Parameters: `{ "timeout": "1000" }`
+
+3. Focus on the "Users" page link
+   - Action: `locator.focus`
+   - Parameters: `{ "selector": "[data-testid='nav_users_page']", "strict": true }`
+
+4. Click on the "Users" page link
+   - Action: `locator.click`
+   - Parameters: `{ "selector": "[data-testid='nav_users_page']", "strict": true }`
+
+5. Focus on the "Add User" button
+   - Action: `locator.focus`
+   - Parameters: `{ "selector": "[data-testid='add_user_button']", "strict": true }`
+
+6. Click on the "Add User" button
+   - Action: `locator.click`
+   - Parameters: `{ "selector": "[data-testid='add_user_button']", "strict": true }`
+
+7. Focus on the "Full Name" input field
+   - Action: `locator.focus`
+   - Parameters: `{ "selector": "[data-testid='full_name']", "strict": true }`
+
+8. Fill the "Full Name" input field with a generated full name
+   - Action: `locator.fill`
+   - Parameters: `{ "selector": "[data-testid='full_name']", "value": "Ms. Beverly Conn", "strict": true }`
+
+9. Focus on the "Email" input field
+   - Action: `locator.focus`
+   - Parameters: `{ "selector": "[data-testid='email']", "strict": true }`
+
+10. Fill the "Email" input field with a generated email address
+    - Action: `locator.fill`
+    - Parameters: `{ "selector": "[data-testid='email']", "value": "Ms.BeverlyConn66@gmail.com", "strict": true }`
+
+11. Focus on the "Submit" button
+    - Action: `locator.focus`
+    - Parameters: `{ "selector": "[data-testid='submit_button']", "strict": true }`
+
+12. Click on the "Submit" button
+    - Action: `locator.click`
+    - Parameters: `{ "selector": "[data-testid='submit_button']", "strict": true }`
+
+13. Focus on the "Users" table
+    - Action: `locator.focus`
+    - Parameters: `{ "selector": "[data-testid='users_table']", "strict": true }`
+
+Please note that the actions are represented in a generic format. The actual implementation may vary depending on the testing framework and libraries used.
+
+## Flow
+The pseudo code for the given code would be as follows:
+
+1. Import necessary modules and functions.
+2. Define a test case named "Add a new user if not exists" which takes a page as the parameter.
+3. Generate a random full name using the faker library.
+4. Generate a random email using the faker library, using the full name as the first name.
+5. Check if the user already exists by calling the "isUserExists" function with the generated email.
+6. If the user exists, throw an error message stating that the user already exists with the provided email.
+7. If the user doesn't exist, perform the following steps:
+   - Go to the homepage ("/") using the page object.
+   - Wait for 1000 milliseconds using the "waitForTimeout" function.
+   - Focus on the element with the test id "nav_users_page" and click on it.
+   - Focus on the element with the test id "add_user_button" and click on it.
+   - Focus on the element with the test id "full_name" and fill it with the generated full name.
+   - Focus on the element with the test id "email" and fill it with the generated email.
+   - Focus on the element with the test id "submit_button" and click on it.
+   - Focus on the element with the test id "users_table".
+8. End the test case.
+
+Please note that the pseudo code is a human-readable representation of the given code and may not be executable directly. It aims to provide a high-level understanding of the actions performed in the code.
+
+## Code
+import { test } from '@playwright/test';
+import { faker } from '@faker-js/faker';
+import { isUserExists } from './helpers'
+
+test('Add a new user if not exists', async ({ page }) => {
+
+  const fullName = faker.person.fullName()
+  const email = faker.internet.email({ firstName: fullName })
+  const userExists = await isUserExists(email)
+  if (userExists) {
+    throw new Error(`user already ${email} exists`)
+  } else {
+    await page.goto('/');
+    await page.waitForTimeout(1000);
+
+    await page.getByTestId('nav_users_page').focus()
+    await page.getByTestId('nav_users_page').click()
+
+    await page.getByTestId('add_user_button').focus()
+    await page.getByTestId('add_user_button').click()
+
+    await page.getByTestId('full_name').focus()
+    await page.getByTestId('full_name').fill(fullName)
+
+    await page.getByTestId('email').focus()
+    await page.getByTestId('email').fill(email)
+
+    await page.getByTestId('submit_button').focus()
+    await page.getByTestId('submit_button').click()
+
+    await page.getByTestId('users_table').focus()
+  }
+})
+
+

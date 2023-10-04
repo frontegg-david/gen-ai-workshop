@@ -45,8 +45,7 @@ export const getFunction = (name: string): (args: object) => string => {
  */
 export const callFunction = (functionName: string, args: string): string => {
   console.log('calling function', functionName)
-  const availableFunctions = getFunction(functionName);
-  const functionToCall = availableFunctions[functionName];
+  const functionToCall = getFunction(functionName);
   const functionArgs = JSON.parse(args);
 
   return functionToCall(functionArgs);

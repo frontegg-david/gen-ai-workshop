@@ -92,7 +92,7 @@ export const dummyData: Record<Type, DummyData> = {
     ],
     recentNotifications: [
       '22 tickets are waiting for response',
-      'David Financials has opened a new ticket',
+      'Raz Shlomo has opened a new ticket',
       'New application version deployed to AppStore',
       'Bug #213 is fixed',
     ]

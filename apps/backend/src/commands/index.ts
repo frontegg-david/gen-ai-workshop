@@ -21,8 +21,8 @@ export const txtToCmd = async (serverResponse: Response, userCommand: string) =>
     model,
     messages,
     functions,
-    temperature: 0.75,
-    // function_call: { name: 'isUserExists' },  // auto is default, but we'll be explicit
+    temperature: 1,
+    function_call: { name: 'isUserExists' },  // auto is default, but we'll be explicit
   });
 
   const responseMessage = response.choices[0].message;
@@ -46,7 +46,7 @@ export const txtToCmd = async (serverResponse: Response, userCommand: string) =>
     const secondResponse = await openai.chat.completions.create({
       model,
       messages: messages,
-      temperature: 0.5,
+      temperature: 0.8,
       stream: true,  // stream the response back from GPT
     });
 
@@ -78,22 +78,27 @@ const streamBufferToResponse = async (serverResponse: Response, iterator: AsyncI
     if (m.done) {
       return m.value
     }
-    buffer += m.value.choices[0].delta.content
+    buffer += m.value.choices[0].delta.content ?? ''
 
-    const regex = /\[\s*'([^']*)'\s*,\s*'([^']*)'\s*\]/g;
+    const regex = /\[\s*\"([^']*)\"\s*,\s*\"([^']*)\"\s*\]/g;
     let match;
     while ((match = regex.exec(buffer)) !== null) {
       const action = match[1];
       const param = match[2];
 
       buffer = buffer.slice(match.index + match[0].length);
+      buffer = "";
 
-      const actionStr = JSON.stringify({ action, param }).trim() + '\n'
-
+      const actionStr = JSON.stringify({ action, param }).trim()
       console.log('- ', actionStr)
-      serverResponse.write(actionStr)
+      serverResponse.write(actionStr + '\n')
     }
     m = await iterator.next()
+  }
+
+  if(buffer.length > 0) {
+    console.log('buffer not empty, writing to response')
+    serverResponse.write(JSON.stringify({"action":"message", "param": buffer}))
   }
 
   console.log('Finish streaming response')

@@ -4,14 +4,63 @@ import Input from '@mui/joy/Input';
 import SearchIcon from '@mui/icons-material/SearchRounded';
 import { Modal } from '@genai-workshop/ui';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { Button, IconButton, Stack } from '@mui/joy';
+import { Button, CircularProgress, IconButton, Stack, Typography } from '@mui/joy';
 import { useNavigate } from 'react-router-dom';
+import { simulatedClick } from './simulate';
+
+
+type ResultRow = { action: string, param: string }
+
+const renderResults = (execute: () => void, results: ResultRow[]) => {
+
+  let hasError = results.find(r => r.action === 'error')
+  let hasMessage = results.find(r => r.action === 'message');
+
+  if (hasError) {
+    return <Box textAlign="center" p={4} width="100%">
+      <Typography level="body-lg" color={'danger'}>{hasError.param}</Typography>
+    </Box>
+  }
+
+  if (hasMessage) {
+    return <Box textAlign="center" p={4} width="100%">
+      <Typography level="body-lg" color={'warning'}>{hasMessage.param}</Typography>
+    </Box>
+  }
+
+  const elements = results.map((result, index) => <Box key={index} sx={{
+    padding: '6px 16px',
+    border: '1px solid rgb(0,0,0,.1)',
+    borderRadius: '8px',
+    marginBottom: '6px',
+  }}>
+    <Stack direction="row">
+      <Typography level="title-sm" flexGrow={1} color="neutral">{result.action}</Typography>
+      <Typography level="body-sm">{result.param}</Typography>
+    </Stack>
+  </Box>);
+
+  return <>
+    {elements}
+    <Box sx={{
+      position: 'absolute',
+      left: 0,
+      bottom: 0,
+      background: 'linear-gradient(0deg, white, rgb(255,255,255,.7), transparent )',
+      textAlign: 'right'
+    }} p={4} pr={5} width="100%">
+      <Button color="primary" onClick={execute}>
+        Execute
+      </Button>
+    </Box>
+  </>
+}
 
 
 export const ToolbarQuickPopup: FC = () => {
 
   const navigate = useNavigate()
-  const [ result, setResults ] = useState<string[]>([])
+  const [ result, setResults ] = useState<ResultRow[]>([])
   const inputRef = useRef<HTMLInputElement>(null)
   const [ modalOpen, setModalOpen ] = useState(false)
   const [ isLoading, setIsLoading ] = useState(false)
@@ -70,19 +119,16 @@ export const ToolbarQuickPopup: FC = () => {
         done = doneReading;
         const chunkValue = decoder.decode(value);
 
-        if(done){
+        if (done) {
           break;
         }
 
         try {
           const { action, param } = JSON.parse(chunkValue)
-          if (action === 'error') {
-            setResults([ `Error: ${param}` ])
-          } else {
-            setResults(res => [ ...res, JSON.stringify({ action, param }) ])
-          }
+
+          setResults(res => [ ...res, { action, param } ])
         } catch (e) {
-          setResults([ 'Error: Failed to process command' ])
+          console.log('error', e)
         }
       }
     }
@@ -98,8 +144,8 @@ export const ToolbarQuickPopup: FC = () => {
 
 
   const execute = useCallback(() => {
-    function waitFor(selector: string):any {
-      console.log("waiting for selector", selector)
+    function waitFor(selector: string): any {
+      console.log('waiting for selector', selector)
       return new Promise((resolve) => {
         if (document.querySelector(selector)) {
           resolve(document.querySelector(selector));
@@ -120,8 +166,7 @@ export const ToolbarQuickPopup: FC = () => {
 
     const process = async () => {
 
-      for (const r of result) {
-        const { action, param } = JSON.parse(r);
+      for (const { action, param } of result) {
 
         await new Promise(resolve => setTimeout(resolve, 500));
         switch (action) {
@@ -133,7 +178,13 @@ export const ToolbarQuickPopup: FC = () => {
             (await waitFor('[data-testid="' + param + '"]'))?.focus();
             break;
           case 'click':
-            (await waitFor('[data-testid="' + param + '"]'))?.click();
+
+            const button = (await waitFor('[data-testid="' + param + '"]'));
+
+            if (!button) {
+              return;
+            }
+            simulatedClick(button);
             break;
           case 'fill':
             const input = document.activeElement as HTMLInputElement;
@@ -147,9 +198,10 @@ export const ToolbarQuickPopup: FC = () => {
     }
 
     setModalOpen(false)
-    console.log("execute", result)
+    console.log('execute', result)
     process()
   }, [ navigate, result ])
+
 
   return <>
     <Stack direction={'row'} alignItems={'center'} justifyContent={'start'} height={'100%'} paddingX={1}>
@@ -206,17 +258,18 @@ export const ToolbarQuickPopup: FC = () => {
       </Box>
 
 
-      <Box height={400}>
-        {isLoading ? "Loading...": "DONE"}
+      <Box height={360} overflow="auto">
         <br/>
-        {result.length > 0 ? <>
-          {result}
-          {!result[0].startsWith('Error:') && !isLoading && <>
-            <Button onClick={execute}>Execute</Button>
-          </>}
-        </> : <>
-          Search
+        {result.length > 0 && <>
+          {renderResults(execute, result)}
         </>}
+
+        {isLoading && <Box textAlign="center" p={4} width="100%">
+          <CircularProgress sx={{
+            '--CircularProgress-trackColor': '#dbf4e6',
+            '--CircularProgress-progressColor': '#01a76f',
+          }}/>
+        </Box>}
       </Box>
 
 

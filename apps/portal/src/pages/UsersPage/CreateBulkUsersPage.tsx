@@ -12,27 +12,13 @@ const CreateBulkUsersPage: FC = () => {
   }, [ navigate ])
 
   return <Container>
-    <Box>
-      <Stack direction="row">
-        <Box mb={2}>
-          <Typography level="h3">
-            Create a new user
-          </Typography>
-        </Box>
-        <Box>
-        </Box>
-      </Stack>
-    </Box>
-    <Grid container spacing={2} sx={{ flexGrow: 1 }}>
-      <Grid xs={8}>
-        <Input slotProps={{ input: { 'data-testid': 'full_name' } }} placeholder={'Full name'}/>
-        <Input slotProps={{ input: { 'data-testid': 'email' } }} placeholder={'Email Address'}/>
-        <Input slotProps={{ input: { 'data-testid': 'emails' } }} placeholder={'Emails'}/>
-      </Grid>
-
-
-      <Button data-testid="submit_button" onClick={addUsers}>Submit</Button>
-    </Grid>
+    <Typography level="h3">
+      Add bulk of users
+    </Typography>
+    <Stack direction="column" gap={2} mt={4} mb={2} maxWidth="100%" width={400}>
+      <Input slotProps={{ input: { 'data-testid': 'emails' } }} placeholder={'Emails'}/>
+    </Stack>
+    <Button color="primary" data-testid="submit_button" onClick={addUsers}>Submit</Button>
   </Container>
 }
 

@@ -4,11 +4,28 @@ Ack like javascript execution generator based on the following e2e flows separat
 {{{flows}}}
 ---
 
-Supported series actions ["navigate","focus","fill", "click", "find","alert", "error", "condition"]
-Respect if conditions before generate actions
+- Supported series actions ["navigate","focus","fill", "click", "find","alert", "error", "condition"]
+- Respect "if" conditions before generate actions
+- Use code section for flow branches
+- Remove submit forms if not needed
+- Use flow section for action generation
+- Use existing flows for action params
 
 Generate series of actions to achieve user command.
-if request starts with guide remove any submit actions.
 
-output format rows of [ {action}, {param} ]
 
+example input:
+add new group Group 1
+
+example output:
+
+["navigate", "/"]
+["focus", "nav_groups"]
+["click", "nav_groups"]
+["click", "add_groups_button"]
+["focus", "add_groups_button"]
+["click", "add_groups_button"]
+["focus", "group_name_input"]
+["fill", "Group 1"]
+["focus", "submit_button"]
+["click", "submit_button"]

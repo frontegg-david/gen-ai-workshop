@@ -3,14 +3,12 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nx run-many -t serve --output-style=stream",
-    "e2e:install": "nx e2e portal-e2e",
     "e2e": "nx e2e portal-e2e --skipInstall",
-    "e2e:ai": "AI_REPORT=true nx e2e portal-e2e --skipInstall --skip-nx-cache ",
+    "e2e:ai": "AI_REPORT=true nx e2e portal-e2e --skipInstall --skip-nx-cache",
+    "e2e:report": "playwright show-report dist/.playwright/apps/portal-e2e/playwright-report",
     "start:backend": "nx serve backend",
     "start:portal": "nx serve portal",
-    "start:ai-model": "nx serve ai-model",
-    "e2e:report": "playwright show-report dist/.playwright/apps/portal-e2e/playwright-report"
+    "generate:prompts": "nx serve ai-model"
   },
   "private": true,
   "dependencies": {
