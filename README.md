@@ -1,16 +1,8 @@
 ## 🤖 Using AI in your UI Workshop
 
-**🌌 Imagine a World...**
-
 Where a SaaS platform springs into action, instantly surfacing critical notifications and error logs as soon as it
 senses a user logging in late at night. Or a web application where users can effortlessly type in commands using natural
 language, and the system responds by executing intricate action sequences.
- 
-**🌠 Sounds like Sci-Fi, Right?**
-
-Well, thanks to the wonders of AI, this future is much closer than you'd think!
-
-**💡 Here's the Twist:**
 
 There's a secret weapon in our development arsenal that remains largely untapped when it comes to accelerating AI
 integration: our end-to-end (e2e) tests.
