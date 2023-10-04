@@ -1,0 +1,3 @@
+{{{userContext}}}
+
+Generate summary of max 30 words for the following sections friendly tone.

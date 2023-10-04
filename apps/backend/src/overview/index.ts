@@ -1,5 +1,6 @@
 import { overviewSections } from './supported-blocks';
 import { generateOrderedSections } from './generate-sections';
+import { generateOverviewSummary } from './generate-summary';
 
 export async function getDynamicOverviewBlocks(userContent: any) {
 
@@ -23,7 +24,8 @@ export async function getDynamicOverviewBlocks(userContent: any) {
   console.log('going to generate overview blocks with AI')
   const orderedSections = await generateOrderedSections(data, userContent)
 
-  const summary = userContent.recentNotifications.join(', ');
+  const mostRelevantSections = orderedSections.slice(0, 2);
+  const summary = await generateOverviewSummary(mostRelevantSections, userContent);
 
   // add missing sections to the end of the list
   data.forEach((section) => {
