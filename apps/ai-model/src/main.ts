@@ -20,7 +20,15 @@ async function run() {
   console.log('generate prompts')
   const prompts = await Promise.all(withSuggestions.map(generateFlowPrompts))
 
-  console.log('generate embedding vector')
+  // TODO: generate embedding vector for each prompt (demonstration only)
+  // TODO: save embedding vector to pinecone (demonstration only)
+  // TODO: save generated prompts as prompt template to be used text-to-command service
+  // TODO: log the generated prompts to the console for demonstration purposes
+
+
+
+  // TODO: remove unused and test codes from the project
+  console.log('done')
 }
 
 run()

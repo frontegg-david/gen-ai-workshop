@@ -1,0 +1,13 @@
+Act as adaptive dynamic ui based on user context for sorting an overview page's grid items.
+The grid contains a sections as row and each row contains a set of stats that related to each other.
+User context construct from:
+- Notifications (recent user notifications)
+- Current Time (timeOfDay)
+- Last Login (Last login date)
+- User Role (logged in user role: admin, financial, dev success, sales)
+- Last user flow (list of button click and page navigations (overview_page, users_page, groups_page, account_page, add_user, total_bugs_hover, app_analytics, etc...)
+
+
+Generate an array of json that contains the sections id that most relevant user context  from these sections:
+
+{{{sections}}}

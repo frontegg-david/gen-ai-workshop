@@ -16,7 +16,7 @@ test('Add a new user if not exists', async ({ page }) => {
   if(userExists){
     await page.getByTestId('users_table').focus()
     alert(`user already ${email} exists`)
-  }else {
+  } else {
     await page.getByTestId('add_user_button').focus()
     await page.getByTestId('add_user_button').click()
 

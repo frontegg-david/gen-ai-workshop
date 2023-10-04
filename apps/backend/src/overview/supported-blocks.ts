@@ -153,27 +153,33 @@ export const overviewSections = () => [
       type: 'BarChartCard',
       cols: 8,
 
-      values: [{
-        name: "Income",
-        color: "#00A76F",
+      values: [ {
+        name: 'Income',
+        color: '#00A76F',
         data: Array(12).fill(0).map(() => faker.number.int({
           min: 50,
           max: 100
         }))
-      },{
-        name: "Expenses",
-        color: "#FFAB00",
+      }, {
+        name: 'Expenses',
+        color: '#FFAB00',
         data: Array(12).fill(0).map(() => faker.number.int({
           min: 30,
           max: 70
         }))
-      }]
+      } ]
 
     }, {
       id: 'recent_transitions',
       title: 'Recent Transitions',
       type: 'ListCard',
-      cols: 4
+      cols: 4,
+      items: Array(10).fill(0).map(() => ({
+        avatarUrl: faker.image.avatar(),
+        text: faker.person.fullName(),
+        subText: faker.date.recent().toLocaleDateString(),
+        value: faker.finance.amount(100, 1000, 2, '$')
+      }))
     } ],
   },
   {
@@ -184,21 +190,23 @@ export const overviewSections = () => [
         id: 'product_news',
         title: 'Product News',
         type: 'ListCard',
-        cols: 4
-      },
-      {
-        id: 'product_sold',
-        title: 'Product Sold',
-        type: 'StatsCard',
-        cols: 4,
-        startColor: '#a366ff',
-        endColor: '#8400ff'
+        cols: 6,
+        items: Array(10).fill(0).map(() => ({
+          text: faker.lorem.sentence({ min: 1, max: 5 }),
+          subText: faker.lorem.sentence({ min: 10, max: 20 })
+        }))
       },
       {
         id: 'customer_conversion_rates',
         title: 'Customer Conversion Rates',
         type: 'ListCard',
-        cols: 4
+        cols: 6,
+        items: Array(10).fill(0).map(() => ({
+          avatarUrl: faker.image.urlPicsumPhotos({ width: 100, height: 100 }),
+          text: faker.person.fullName(),
+          subText: faker.lorem.sentence({ min: 10, max: 20 }),
+          value: `${faker.number.int({ min: 1, max: 10 })}/10`
+        }))
       },
     ]
   },
@@ -211,8 +219,8 @@ export const overviewSections = () => [
         title: 'Tickets By Type',
         type: 'PieChartCard',
         cols: 4,
-        values: Array(4).fill(0).map((x,i) => faker.number.int({ min: 2, max: 5 + i*4 })),
-        colors: [ '#FF5630','#FFAB00','#00A76F', '#d5d5d5'],
+        values: Array(4).fill(0).map((x, i) => faker.number.int({ min: 2, max: 5 + i * 4 })),
+        colors: [ '#FF5630', '#FFAB00', '#00A76F', '#d5d5d5' ],
         labels: [ 'Bug', 'Support', 'Feature Request', 'Others' ],
       },
       {
@@ -220,31 +228,121 @@ export const overviewSections = () => [
         title: 'Total Active/Resolved Tickets',
         type: 'AxesChartCard',
         cols: 8,
-        values: [{
-          name: "Resolved",
-          color: "#9aff9a",
+        values: [ {
+          name: 'Resolved',
+          color: '#9aff9a',
           data: Array(14).fill(0).map(() => faker.number.int({
             min: 5,
             max: 10
           }))
-        },{
-          name: "Active",
-          color: "#ee1770",
+        }, {
+          name: 'Active',
+          color: '#ee1770',
           data: Array(14).fill(0).map(() => faker.number.int({
             min: 4,
             max: 7
           }))
-        }]
+        } ]
       },
-
     ]
   },
+  {
+    id: 'security_section',
+    description: 'Support Stats Section (Tickets By type, Total Opened/Resolved Tickets)',
+    items: [
+      {
+        id: 'total_security_incidents',
+        title: 'Total Security Incidents',
+        type: 'BarChartCard',
+        cols: 8,
 
+        values: [ {
+          name: 'Phishing',
+          color: '#FF5630',
+          data: Array(12).fill(0).map(() => faker.number.int({
+            min: 50,
+            max: 100
+          }))
+        }, {
+          name: 'Brute-Force',
+          color: '#e3330b',
+          data: Array(12).fill(0).map(() => faker.number.int({
+            min: 30,
+            max: 70
+          }))
+        }, {
+          name: 'DDoS',
+          color: '#6c1501',
+          data: Array(12).fill(0).map(() => faker.number.int({
+            min: 30,
+            max: 70
+          }))
+        }, {
+          name: 'Others',
+          color: '#d5d5d5',
+          data: Array(12).fill(0).map(() => faker.number.int({
+            min: 30,
+            max: 70
+          }))
+        } ]
 
+      },
+      {
+        id: 'security_incidents_by_type',
+        title: 'Security Incidents By Type',
+        type: 'PieChartCard',
+        cols: 4,
+        values: Array(4).fill(0).map((x, i) => faker.number.int({ min: 2, max: 2 + i * 3 })),
+        colors: [ '#FF5630', '#e3330b', '#6c1501', '#d5d5d5' ],
+        labels: [ 'Phishing', 'Brute-Force', 'DDoS', 'Others' ],
+      },
+    ]
+  },
+  {
+    id: 'sales_section',
+    description: 'Sales Section (Total Sales, Total Profit, Total Loss)',
+    items: [
+      {
+        id: 'sales_profit',
+        title: 'Sales Profit',
+        type: 'BgStatsCard',
+        cols: 4,
+        size: 'lg',
+        bgColor: '#f8fffb',
+        lineColor: '#00A76F',
+        value: faker.number.int({ min: 10000, max: 20000 }),
+        chartData: Array(14).fill(0).map((x, i) => faker.number.int({ min: 200 + i * 10, max: 500 + i * 10 })),
+      },
+      {
+        id: 'sale_by_gender',
+        title: 'Sale By Gender',
+        type: 'AxesChartCard',
+        cols: 8,
+        values: [ {
+          name: 'Male',
+          data: Array(10).fill(0).map((x, index2) => faker.number.int({
+            min: 50,
+            max: 120
+          }))
+        }, {
+          name: 'Female',
+          data: Array(10).fill(0).map((x, index2) => faker.number.int({
+            min: 30,
+            max: 100
+          }))
+        }, {
+          name: 'Unknown',
+          data: Array(10).fill(0).map((x, index2) => faker.number.int({
+            min: 10,
+            max: 20
+          }))
+        } ]
+      },
+    ]
+  }
 ]
 
 export const overviewBlocks = [
-
   {
     id: 'total_website_visits',
     title: 'Top Installed Countries',
@@ -256,40 +354,5 @@ export const overviewBlocks = [
     title: 'Total Search Hits',
     type: 'list',
     cols: 4,
-  },
-
-  {
-    id: 'customer_reviews',
-    title: 'Customer Reviews',
-    type: 'ListCard',
-    cols: 4
-  },
-
-  {
-    id: 'sales_profit',
-    title: 'Sales Profit',
-    type: 'StatsCard',
-    cols: 4,
-    startColor: '#666eff',
-    endColor: '#2200ff'
-  },
-  {
-    id: 'sale_by_gender',
-    title: 'Sale By Gender',
-    type: 'PieChartCard',
-    cols: 4
-  },
-
-  {
-    id: 'total_security_incidents',
-    title: 'Total Security Incidents',
-    type: 'box-chart',
-    cols: 4
-  },
-  {
-    id: 'security_incidents_by_type',
-    title: 'Security Incidents By Type',
-    type: 'PieChartCard',
-    cols: 4
   },
 ]

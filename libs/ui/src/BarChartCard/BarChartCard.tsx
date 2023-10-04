@@ -82,7 +82,7 @@ export const BarChartCard: FC<BarChartCardProps> = (props) => {
             borderRadius: 4,
             borderRadiusApplication: 'end',
             borderRadiusWhenStacked: 'last',
-            columnWidth: '28%'
+            columnWidth: `${10 + values.length * 10}%`
           }
         },
 

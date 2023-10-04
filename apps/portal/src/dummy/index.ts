@@ -1,23 +1,36 @@
 import { createContext, useContext } from 'react';
 
-export const dummyData = {
+interface DummyData {
+  user: {
+    roles: string;
+    name: string;
+    lastLogin: string;
+  },
+  lastUserFlow: string[]
+  recentNotifications: string[]
+}
+
+export type Type = 'financials' | 'admin' | 'sales' | 'support'
+
+export const dummyData: Record<Type, DummyData> = {
   financials: {
     user: {
       roles: 'Financial',
-      name: 'David Antoon',
+      name: 'David Financials',
       lastLogin: 'Sat Sep 25 2023 14:12:27 GMT+0300',
     },
     lastUserFlow: [
       'login',
       'invoices_page',
-      'sort_by_income',
+      'last_month_financials',
+      'send_payment_reminder',
       'overview_page',
     ],
     recentNotifications: [
       '10 New payments accepted by vendor',
       '20 new users have signed up today',
-      'New application version deployed to AppStore',
-      '2 users blocked due to login attempts',
+      '12 payments rejected by vendor',
+      '10 invoices are waiting for approval',
     ]
   },
   admin: {
@@ -51,21 +64,23 @@ export const dummyData = {
     lastUserFlow: [
       'login',
       'active_customers_page',
-      'download_per_platform',
       'top_installed_countries',
+      'campaigns_page',
+      'add_new_campaign',
       'overview_page',
     ],
     recentNotifications: [
       'First install from Germany',
       'New application version deployed to AppStore',
-      '3 new reviews on AppStore',
-      '12 new demo request',
+      '22 new reviews on AppStore and Google Play',
+      'Campaign #213 is over',
+      '44 Campaigns are waiting for launch',
     ]
   },
-  devSuccess: {
+  support: {
     user: {
-      roles: 'Sales',
-      name: 'Sales User',
+      roles: 'support',
+      name: 'Support User',
       lastLogin: 'Sat Sep 26 2023 14:12:27 GMT+0300',
     },
     lastUserFlow: [
@@ -76,18 +91,17 @@ export const dummyData = {
       'overview_page',
     ],
     recentNotifications: [
-      'First install from Germany',
+      '22 tickets are waiting for response',
+      'David Financials has opened a new ticket',
       'New application version deployed to AppStore',
-      '3 new reviews on AppStore',
-      '12 new demo request',
+      'Bug #213 is fixed',
     ]
   }
 }
 
+const DummyDataContext = createContext<DummyData>(dummyData.admin)
 
-const DummyData = createContext<any>({})
-
-export const DummyDataProvider = DummyData.Provider
-export const useDummyData = ()=>{
-  return useContext(DummyData)
+export const DummyDataProvider = DummyDataContext.Provider
+export const useDummyData = () => {
+  return useContext(DummyDataContext)
 }

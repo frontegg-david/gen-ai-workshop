@@ -1,4 +1,3 @@
-import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
 
 import theme from './theme';
@@ -16,14 +15,12 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <StrictMode>
-    <DummyDataProvider value={dummyData.admin}>
-      <QueryClientProvider client={queryClient}>
-        <CssVarsProvider theme={theme}>
-          <CssBaseline/>
-          <RouterProvider router={router} future={{ v7_startTransition: true }}/>
-        </CssVarsProvider>
-      </QueryClientProvider>
-    </DummyDataProvider>
-  </StrictMode>
+  <DummyDataProvider value={dummyData.support}>
+    <QueryClientProvider client={queryClient}>
+      <CssVarsProvider theme={theme}>
+        <CssBaseline/>
+        <RouterProvider router={router} future={{ v7_startTransition: true }}/>
+      </CssVarsProvider>
+    </QueryClientProvider>
+  </DummyDataProvider>
 );

@@ -12,10 +12,11 @@ export const BgStatsCard: FC<BgStatsCardProps> = (props) => {
     lineColor = '#00A76F',
     prefix = '$',
     value = 18765,
+    size = 'md',
     chartData = [ 5, 18, 12, 51, 68, 11, 39, 37, 27, 20 ],
   } = props
 
-  return <Card sx={{ backgroundColor: bgColor, p: 0, pb: 2 }}>
+  return <Card sx={{ backgroundColor: bgColor, p: 0, pb: 2, height: size === 'lg' ? '387px' : undefined }}>
     <Box p={3}>
       <Typography level="title-md" sx={{ fontWeight: 600 }}>
         {title}
@@ -27,7 +28,7 @@ export const BgStatsCard: FC<BgStatsCardProps> = (props) => {
 
     </Box>
     <Box width="100%" height={100}>
-      <ApexChart type="line" height={100} width="100%" series={[
+      <ApexChart type="line" height={size === 'lg' ? 200 : 100} width="100%" series={[
         {
           'data': chartData
         }

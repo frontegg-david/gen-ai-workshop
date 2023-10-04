@@ -1,9 +1,8 @@
 import { FC, useMemo } from 'react';
-import { Grid, Container, Stack, Typography, Button, Avatar, Chip } from '@mui/joy';
+import {  Container, Stack, Typography, Avatar, Chip } from '@mui/joy';
 import { Table } from '@genai-workshop/ui'
 
 import Box from '@mui/joy/Box';
-import PlusIcon from '@mui/icons-material/AddRounded';
 import { useUsersData } from './hooks';
 import { useNavigate } from 'react-router-dom';
 import { UsersPageActions } from './UsersPageActions';

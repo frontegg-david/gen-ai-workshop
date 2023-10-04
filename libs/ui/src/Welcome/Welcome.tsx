@@ -4,7 +4,7 @@ import { Card, Stack, Typography } from '@mui/joy';
 import { Character, WelcomeArt } from '@genai-workshop/assets';
 
 
-export const Welcome: FC = () => {
+export const Welcome: FC<{ summary: string, user: { name: string } }> = ({ summary, user }) => {
 
   return <Card sx={{
     overflow: 'hidden',
@@ -15,13 +15,13 @@ export const Welcome: FC = () => {
     <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'} height={'100%'}>
       <Stack direction={'column'} alignItems={'start'} justifyContent={'center'} height={'100%'}>
         <Typography level="h3">
-          Welcome back, 👋<br/> John Doe
+          Welcome back, 👋<br/> {user.name}
         </Typography>
         <Typography level="title-md" mt={3}>
           Here's what's happening with your projects today
         </Typography>
-        <Typography level="body-sm" mt={1}>
-          You have 2 new notifications, 1 new user and 1 new download
+        <Typography level="body-sm" mt={1} sx={{ 'marginRight': '25%' }}>
+          {summary}
         </Typography>
       </Stack>
       <Box sx={{

@@ -1,7 +1,7 @@
 import { test } from '@playwright/test';
 import { faker } from '@faker-js/faker';
 
-test.skip('should add bulk of users', async ({ page }) => {
+test('add bulk of users', async ({ page }) => {
 
   await page.goto('/');
   await page.waitForTimeout(1000);
@@ -25,6 +25,4 @@ test.skip('should add bulk of users', async ({ page }) => {
   await page.getByTestId('submit_button').click()
 
   await page.getByTestId('users_table').focus()
-
-
 })

@@ -4,5 +4,7 @@ export interface BgStatsCardProps {
   lineColor?: string;
   prefix?: string;
   value?: number;
+  size?: 'lg' |'md';
+
   chartData?: number[];
 }

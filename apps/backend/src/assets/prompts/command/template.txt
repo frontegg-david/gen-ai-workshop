@@ -1,0 +1,14 @@
+Ack like javascript execution generator based on the following e2e flows separated by ---:
+
+---
+{{{flows}}}
+---
+
+Supported series actions ["navigate","focus","fill", "click", "find","alert", "error", "condition"]
+Respect if conditions before generate actions
+
+Generate series of actions to achieve user command.
+if request starts with guide remove any submit actions.
+
+output format rows of [ {action}, {param} ]
+

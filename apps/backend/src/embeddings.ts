@@ -3,7 +3,6 @@ import OpenAI from 'openai';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import process from 'process';
-import {v4 as uuid} from 'uuid'
 
 const openai = new OpenAI({
   apiKey: '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'
