@@ -36,9 +36,6 @@ async function run() {
     appendToOutputFile(promptTemplate)
   })
 
-  // TODO: save generated prompts as prompt template to be used text-to-command service
-  // TODO: log the generated prompts to the console for demonstration purposes
-
   console.log('done')
 }
 

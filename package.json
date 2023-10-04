@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "postinstall": "yarn playwright install",
     "e2e": "nx e2e portal-e2e --skipInstall",
     "e2e:ai": "AI_REPORT=true nx e2e portal-e2e --skipInstall --skip-nx-cache",
     "e2e:report": "playwright show-report dist/.playwright/apps/portal-e2e/playwright-report",

@@ -26,6 +26,13 @@ export async function getDynamicOverviewBlocks(userContent: any) {
   const mustRelevantSections = orderedSections.slice(0, 2)
   const summary = await generateOverviewSummary(mustRelevantSections, userContent)
 
+  // add missing sections to the end of the list
+  data.forEach((section) => {
+    if (!mustRelevantSections.find(s => s.id === section.id)) {
+      orderedSections.push(section)
+    }
+  })
+
   return {
     sections: orderedSections.reduce((acc, section) => [ ...acc, ...section.items ], []),
     summary
