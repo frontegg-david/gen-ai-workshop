@@ -14,13 +14,13 @@ async function run() {
   console.log('clean up reports')
   const cleanedReports = reports.map(prepareReport)
 
-  console.log('generate auto complete suggestions')
+  console.log('generate auto complete suggestions (for embeddings)')
   const withSuggestions = await Promise.all(cleanedReports.map(generateSuggestions))
 
-  console.log('generate prompts')
+  console.log('generate title and description')
   const withPrompts = await Promise.all(withSuggestions.map(generateFlowPrompts))
 
-  console.log('generate code description')
+  console.log('generate pseudo code')
   const prompts = await Promise.all(withPrompts.map(generateCodeDescription))
 
 

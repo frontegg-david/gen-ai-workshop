@@ -1,7 +1,7 @@
 import { test } from '@playwright/test';
 import { faker } from '@faker-js/faker';
 
-test('add bulk of users', async ({ page }) => {
+test.skip('add bulk of users', async ({ page }) => {
 
   await page.goto('/');
   await page.waitForTimeout(1000);

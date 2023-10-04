@@ -34,6 +34,11 @@ Execute the following command to start the portal:
 ```bash
 yarn start:portal
 ```
+In another terminal run the backend process as well.
+
+```bash
+ yarn start:backend
+```
 
 Once it's up, take a moment to navigate through and get a feel for the pages. It's your playground for the workshop!
 
@@ -124,7 +129,7 @@ Ready to understand the magic behind generating AI prompts from e2e test reports
     - **Creating the Final Prompts:**
 
         ```javascript
-        const prompts = await Promise.all(withSuggestions.map(generateFlowPrompts))
+        const prompts = await Promise.all(withPrompts.map(generateCodeDescription))
         ```
       These prompts are what the system will use to interpret and act upon natural language (NL) commands from users.
 
