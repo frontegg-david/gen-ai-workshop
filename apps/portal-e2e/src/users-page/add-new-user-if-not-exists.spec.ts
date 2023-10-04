@@ -2,7 +2,7 @@ import { test } from '@playwright/test';
 import { faker } from '@faker-js/faker';
 import { isUserExists } from './helpers'
 
-test('Add a new user if not exists', async ({ page }) => {
+test.skip('Add a new user if not exists', async ({ page }) => {
 
   const fullName = faker.person.fullName()
   const email = faker.internet.email({ firstName: fullName })

@@ -11,6 +11,7 @@ export async function getDynamicOverviewBlocks(userContent: any) {
   //   sections: data.reduce((acc, section) => [ ...acc, ...section.items ], [])
   // }
 
+
   /**
    * 1. generate ordered sections (AI)
    * 2. generate summary (AI)
@@ -23,12 +24,14 @@ export async function getDynamicOverviewBlocks(userContent: any) {
 
   console.log('going to generate overview blocks with AI')
   const orderedSections = await generateOrderedSections(data, userContent)
+
   const mustRelevantSections = orderedSections.slice(0, 2)
   const summary = await generateOverviewSummary(mustRelevantSections, userContent)
+  // const summary = userContent.recentNotifications.join(', ');
 
   // add missing sections to the end of the list
   data.forEach((section) => {
-    if (!mustRelevantSections.find(s => s.id === section.id)) {
+    if (!orderedSections.find(s => s.id === section.id)) {
       orderedSections.push(section)
     }
   })

@@ -12,7 +12,7 @@ interface DummyData {
 
 export type Type = 'financials' | 'admin' | 'sales' | 'support'
 
-export const dummyData: Record<Type, DummyData> = {
+export const userExamples: Record<Type, DummyData> = {
   financials: {
     user: {
       roles: 'Financial',
@@ -47,6 +47,8 @@ export const dummyData: Record<Type, DummyData> = {
       'overview_page',
     ],
     recentNotifications: [
+      // "DDOS attack detect",
+      // "12 security indicators are in red",
       '10 new users have signed up today',
       'New application version deployed to AppStore',
       '2 users blocked due to login attempts',
@@ -99,7 +101,7 @@ export const dummyData: Record<Type, DummyData> = {
   }
 }
 
-const DummyDataContext = createContext<DummyData>(dummyData.admin)
+const DummyDataContext = createContext<DummyData>(userExamples.admin)
 
 export const DummyDataProvider = DummyDataContext.Provider
 export const useDummyData = () => {

@@ -1,4 +1,4 @@
-## 🤖 Using AI in your UI Workshop
+# 🤖 Using AI in your UI Workshop
 
 Where a SaaS platform springs into action, instantly surfacing critical notifications and error logs as soon as it
 senses a user logging in late at night. Or a web application where users can effortlessly type in commands using natural
@@ -8,8 +8,6 @@ There's a secret weapon in our development arsenal that remains largely untapped
 integration: our end-to-end (e2e) tests.
 These are the tests that mimic real user interactions, and they are bursting with valuable data about user behaviors,
 application flows, and potential commands.
-
-**🚀 Join Us on an Adventure!**
 
 In this hands-on workshop, we'll dive deep into the exciting intersection of AI and e2e testing.
 Together, we'll discover how to leverage our existing test suites to train AI models, setting the stage for user

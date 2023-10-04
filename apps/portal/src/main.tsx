@@ -5,7 +5,7 @@ import { CssBaseline, CssVarsProvider } from '@mui/joy';
 import { RouterProvider } from 'react-router-dom';
 import router from './router';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { dummyData, DummyDataProvider } from './dummy';
+import { userExamples, DummyDataProvider } from './dummy';
 
 const queryClient = new QueryClient()
 
@@ -15,7 +15,7 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <DummyDataProvider value={dummyData.financials}>
+  <DummyDataProvider value={userExamples.admin}>
     <QueryClientProvider client={queryClient}>
       <CssVarsProvider theme={theme}>
         <CssBaseline/>
