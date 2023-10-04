@@ -32,6 +32,7 @@ Execute the following command to start the portal:
 ```bash
 yarn start:portal
 ```
+
 In another terminal run the backend process as well.
 
 ```bash
@@ -157,5 +158,190 @@ Ready to generate the actual AI prompts? Here's your action plan:
    OpenAI,
    serving as the foundation for task specializations.
 
+# 🌐 Step 2: Exploring the Portal Overview
 
+## 1️⃣ Navigate to the Portal Homepage
 
+First things first, head over to the portal's homepage.
+
+## 2️⃣ Understanding the Current Overview
+
+As you'll see, the overview section is packed with stats. While it might look comprehensive,
+there's a catch: the order is static and many of these stats might not be relevant to the specific user who's logged in.
+
+This presents an opportunity: How can we make this more dynamic and user-centric? Keep this thought in mind as we
+proceed.
+
+## 3️⃣ Diving into the Portal Overview Page Code
+
+Time to roll up our sleeves and inspect the code that powers the overview section!
+
+1. **Navigate to the Code:**
+
+   Open up the apps/portal/src/pages/OverviewPage directory.
+
+2. **Inspecting the API Call:**
+
+   Here, you'll discover an API call. This call fetches blocks of stats from our backend, which are then displayed on
+   the overview page.
+
+3. **Component Mapping in the Render Section:**
+
+   Delving deeper into the render section, you'll come across the component mapper. This ingenious piece of code
+   translates the raw stats (in JSON format) into visual components that users see on the portal.
+
+By understanding this, you'll gain insights into how static stats are currently presented. But remember, our goal is to
+make this dynamic and more user-relevant.
+
+### 4️⃣ Optimizing Stats Based on User Context
+
+Our next step is to make the backend deliver ordered stats tailored to the user's context. This ensures that each user
+receives the most relevant information at a glance.
+
+1. **Dive into the Backend Overview Code:**
+
+   Navigate to apps/backend/src/overview to begin.
+
+2. **Understanding the Three Key Files:**
+
+    - `index.ts`:
+
+      This file holds the core business logic. It processes and determines which sections to return based on various
+      parameters and conditions.
+
+    - `supported-blocks.ts`:
+
+      A comprehensive list of all available sections and their corresponding stats can be found here. Think of it as a
+      menu from which the user will be served.
+
+    - `generate-sections.ts`:
+
+      The magic happens here. This file contains the code that communicates with OpenAI's GPT. It requests GPT to
+      reorder the
+      sections, ensuring they align perfectly with the user's context.
+
+   With these in place, our portal will be equipped to serve users with personalized, context-aware stats on the
+   overview page.
+
+### 5️⃣ Activating Dynamic Section Ordering
+
+It's time to witness the dynamic ordering in action!
+
+1. **Navigate to the Code:**
+
+   If you aren't already there, head over to apps/backend/src/overview.
+
+2. **Editing the index.ts File:**
+
+    - **Commenting Out Static Sections:**
+
+      Locate the section of code that statically defines the order of the stats. Once found, comment it out. This will
+      disable the old static ordering system.
+
+    - **Uncommenting Dynamic Ordering:**
+
+      Find the section that's labeled or related to "generate ordered sections." Uncomment this section to activate the
+      dynamic ordering system powered by OpenAI's GPT.
+
+3. **Testing the Changes:**
+
+   After making these edits, you might want to run your application to see the difference. You should now observe that
+   the stats on the portal's overview page adapt and reorder based on the user's context.
+
+### 6️⃣ Changing User Context & Observing Dynamic Ordering
+
+Want to see the dynamic ordering adapt to different user contexts? Let's tweak the user context and watch the magic
+unfold!
+
+1. **Navigate to the Portal Main Code:**
+
+   Head over to `apps/portal/main.tsx`.
+
+2. **Editing the DummyDataProvider Component:**
+
+    - **Locate the Component:**
+
+      Find the DummyDataProvider component within the file.
+
+    - **Modify the Property:**
+
+      Change its property to: `userExamples.support`
+
+    - Observing the Changes in the Portal:
+
+      If your portal is currently running, either restart it or simply refresh the page.
+
+3. **Let's change the user context to reflect an admin's perspective:**
+
+    - In apps/portal/main.tsx, set DummyDataProvider to: `userExamples.admin`
+    - Replace first two notifications in admin user's recentNotifications with:
+        - "DDOS attack detected"
+        - "14 security incidents revealed in the last hour"
+    - Observing the Changes in the Portal:
+      The stats on the overview page should now reflect the admin's security incidents.
+
+### 8️⃣ Generating a Dynamic Overview Summary
+
+To make the overview truly dynamic, we'll generate a summary based on the most relevant sections. Follow these steps:
+
+1. **Setting up the Script File:**
+
+   Create a new file generate-summary.ts in apps/backend/src/overview.
+
+2. **Modifying the Ordering Logic:**
+
+    - **Navigate to:** `apps/backend/src/overview/index.ts`
+
+    - **Slice and Get Most Relevant Sections:**
+
+      Extract the top two most relevant sections from the ordered list:
+
+      ```javascript
+      const mostRelevantSections = orderedSections.slice(0, 2);
+      ```
+    - **Generate the Dynamic Summary:**
+
+      Call the function to generate the summary based on the top sections and user context:**
+
+      ```javascript
+      const summary = await generateOverviewSummary(mostRelevantSections, userContext);
+      ```
+
+      With this in place, the portal's overview will not only prioritize the most relevant sections but also provide a
+      dynamically generated summary for a tailored user experience.
+
+3. Craft Your Own Dynamic Prompt:
+
+    - **Understanding Your Goal:**
+
+      You aim to create a prompt that receives user context and crafts a concise summary for the top two relevant
+      sections.
+
+    - **Reference for Inspiration:**
+
+      Peek into the generate-sections.ts file. Notice how prompts are structured there? It'll give you a solid
+      foundation to
+      start.
+
+    - **Your Turn!:**
+
+      Now, using the insights from generate-sections.ts, try to write the `generateOverviewSummary` function. Remember,
+      you want to craft a prompt that takes into account the user context
+      and the most relevant sections to produce a tailored summary.
+
+Hint: Your function might start something like this:
+
+```javascript
+
+function generateOverviewSummary(sections, userContext) {
+  const prompt = `...`; // Your crafted prompt here
+
+  // ... Code to send this prompt to OpenAI's API and fetch the generated summary...
+
+  return generatedSummary;
+}
+
+```
+
+Give it a shot! Crafting this function is an excellent exercise in understanding how to bridge user context with
+AI-driven content generation.
