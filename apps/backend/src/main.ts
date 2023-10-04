@@ -1,5 +1,4 @@
 import express from 'express';
-import { test1 } from './test1';
 import cors from 'cors'
 import bodyParser from 'body-parser'
 import { embedding } from './embeddings';
@@ -13,12 +12,6 @@ const app = express();
 app.use(cors({ origin: 'http://localhost:3000' }));
 app.use(bodyParser.json())
 
-
-
-app.get('/users', async (req, res) => {
-  const data = await test1(req.query['q'])
-  res.send(data);
-});
 
 
 app.post('/ai', async (req, res) => {

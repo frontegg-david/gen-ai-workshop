@@ -1,4 +1,4 @@
-import { ChatCompletionCreateParams } from 'openai/src/resources/chat/completions';
+import { ChatCompletionCreateParams } from 'openai/resources/chat';
 
 /**
  * Check if user exists

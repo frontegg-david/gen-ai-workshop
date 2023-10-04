@@ -1,4 +1,4 @@
-import { ChatCompletionMessageParam } from 'openai/src/resources/chat/completions';
+import type { ChatCompletionMessageParam } from 'openai/src/resources/chat/completions';
 import { getPromptTemplate } from '../utils';
 
 

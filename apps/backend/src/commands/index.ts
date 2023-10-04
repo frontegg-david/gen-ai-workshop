@@ -2,8 +2,9 @@ import openai from '../ai'
 import { createCommandPrompt } from './command-prompt';
 import { callFunction, getFunctionsDeclarations } from './functions';
 import { Response } from 'express';
-import { Chat } from 'openai/resources';
-import ChatCompletionChunk = Chat.ChatCompletionChunk;
+import type { Chat } from 'openai/resources';
+
+type ChatCompletionChunk = Chat.ChatCompletionChunk;
 
 const model = 'gpt-3.5-turbo-16k-0613'
 
