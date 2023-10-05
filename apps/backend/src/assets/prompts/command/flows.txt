@@ -1,65 +1,42 @@
 # Add a new user if not exists
 
-1. Go to the page with URL: "/"
+1. Go to '/'
 2. Wait for 1000 milliseconds
-3. Focus on element with data-testid: "nav_users_page"
-4. Click on element with data-testid: "nav_users_page"
-5. Focus on element with data-testid: "add_user_button"
-6. Click on element with data-testid: "add_user_button"
-7. Focus on element with data-testid: "full_name"
-8. Fill element with data-testid: "full_name" with value: "Marshall Cummerata"
-9. Focus on element with data-testid: "email"
-10. Fill element with data-testid: "email" with value: "MarshallCummerata.Connelly@gmail.com"
-11. Focus on element with data-testid: "submit_button"
-12. Click on element with data-testid: "submit_button"
-13. Focus on element with data-testid: "users_table"
-
-Note: If the user with the provided email already exists, an error will be thrown.
+3. Focus on '[data-testid="nav_users_page"]'
+4. Click on '[data-testid="nav_users_page"]'
+5. Focus on '[data-testid="add_user_button"]'
+6. Click on '[data-testid="add_user_button"]'
+7. Focus on '[data-testid="full_name"]'
+8. Fill 'Elsa Mueller' in '[data-testid="full_name"]'
+9. Focus on '[data-testid="email"]'
+10. Fill 'ElsaMueller.Daniel@hotmail.com' in '[data-testid="email"]'
+11. Focus on '[data-testid="submit_button"]'
+12. Click on '[data-testid="submit_button"]'
+13. Focus on '[data-testid="users_table"]'
 
 ## Flow
 Action Flow:
 
-1. Import necessary modules and functions.
+1. Generate a random full name using faker.person.fullName().
+2. Generate a random email using faker.internet.email() with the first name as fullName.
+3. Check if the user with the generated email already exists using isUserExists(email).
+4. If the userExists is true, throw an error stating that the user already exists with the email.
+5. If the userExists is false, perform the following actions:
+   - Go to the home page ("/").
+   - Wait for 1000 milliseconds.
+   - Focus on the element with the test ID "nav_users_page".
+   - Click on the element with the test ID "nav_users_page".
+   - Focus on the element with the test ID "add_user_button".
+   - Click on the element with the test ID "add_user_button".
+   - Focus on the element with the test ID "full_name".
+   - Fill the element with the test ID "full_name" with the generated full name.
+   - Focus on the element with the test ID "email".
+   - Fill the element with the test ID "email" with the generated email.
+   - Focus on the element with the test ID "submit_button".
+   - Click on the element with the test ID "submit_button".
+   - Focus on the element with the test ID "users_table".
 
-2. Define a test case named "Add a new user if not exists" that accepts a parameter "page".
-
-3. Generate a random full name using the faker.person.fullName() method and save it to the 'fullName' variable.
-
-4. Generate a random email address using the faker.internet.email() method and pass the 'fullName' as the 'firstName' parameter. Save the result to the 'email' variable.
-
-5. Call the 'isUserExists' function and pass the 'email' as an argument. Save the result to the 'userExists' variable.
-
-6. Check if 'userExists' is true.
-
-7. If 'userExists' is true, throw an error message indicating that the user already exists with the given email.
-
-8. If 'userExists' is false, execute the following steps:
-
-  9. Navigate to the root page ("/") using the 'page.goto()' method.
-
-  10. Wait for a timeout of 1000 milliseconds using the 'page.waitForTimeout()' method.
-
-  11. Focus on the element with the test ID "nav_users_page" using the 'page.getByTestId().focus()' method.
-
-  12. Click on the element with the test ID "nav_users_page" using the 'page.getByTestId().click()' method.
-
-  13. Focus on the element with the test ID "add_user_button" using the 'page.getByTestId().focus()' method.
-
-  14. Click on the element with the test ID "add_user_button" using the 'page.getByTestId().click()' method.
-
-  15. Focus on the element with the test ID "full_name" using the 'page.getByTestId().focus()' method.
-
-  16. Fill the input field with the random 'fullName' using the 'page.getByTestId().fill()' method.
-
-  17. Focus on the element with the test ID "email" using the 'page.getByTestId().focus()' method.
-
-  18. Fill the input field with the random 'email' using the 'page.getByTestId().fill()' method.
-
-  19. Focus on the element with the test ID "submit_button" using the 'page.getByTestId().focus()' method.
-
-  20. Click on the element with the test ID "submit_button" using the 'page.getByTestId().click()' method.
-
-  21. Focus on the element with the test ID "users_table" using the 'page.getByTestId().focus()' method.
+Note: The mentioned element test IDs are not mentioned in the code, but assuming they exist in the HTML template of the page.
 
 ## Code
 import { test } from '@playwright/test';
@@ -94,6 +71,50 @@ test('Add a new user if not exists', async ({ page }) => {
 
     await page.getByTestId('users_table').focus()
   }
+})
+
+
+---
+
+# should show all users
+
+1. Go to "/"
+2. Wait for 1000 milliseconds
+3. Focus on element with data-testid "nav_users_page"
+4. Click on element with data-testid "nav_users_page"
+5. Focus on element with data-testid "users_table"
+
+## Flow
+Action flow for the code:
+
+1. Import the 'expect' and 'test' modules from the '@playwright/test' package.
+2. Define a test function called 'should show all users' that accepts a 'page' argument.
+3. Inside the test function:
+   - Go to the root page ('/')
+   - Wait for 1 second
+   - Focus on the element with the test ID 'nav_users_page'
+   - Click on the element with the test ID 'nav_users_page'
+   - Focus on the element with the test ID 'users_table'
+   - Count the number of rows in the table with the test ID 'users_table' and assign it to the variable 'usersRows'
+   - Assert that the value of 'usersRows' is equal to 40 using the 'expect' function.
+
+Note: The code is using non-standard HTML entities for characters like single quotes and arrow symbols.
+
+## Code
+import { expect, test } from '@playwright/test';
+
+test('should show all users', async ({ page }) => {
+
+  await page.goto('/');
+  await page.waitForTimeout(1000);
+
+  await page.getByTestId('nav_users_page').focus()
+  await page.getByTestId('nav_users_page').click()
+
+  await page.getByTestId('users_table').focus()
+  const usersRows = await page.getByTestId('users_table').locator('tbody tr').count();
+
+  expect(usersRows).toBe(40)
 })
 
 
