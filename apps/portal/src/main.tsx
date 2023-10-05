@@ -14,8 +14,10 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
+const currentLoggedInUser = userExamples.financials
+
 root.render(
-  <DummyDataProvider value={userExamples.financials}>
+  <DummyDataProvider value={currentLoggedInUser}>
     <QueryClientProvider client={queryClient}>
       <CssVarsProvider theme={theme}>
         <CssBaseline/>

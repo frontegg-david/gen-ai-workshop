@@ -46,9 +46,16 @@ export const userExamples: Record<Type, DummyData> = {
       'website_analytics_page',
       'overview_page',
     ],
+    /**
+     recentNotifications: [
+       "DDOS attack detect",
+       "12 security indicators are in red",
+       '2 users blocked due to login attempts',
+       '3 new reviews on AppStore',
+       'application is up',
+     ],
+     /*/
     recentNotifications: [
-      // "DDOS attack detect",
-      // "12 security indicators are in red",
       '10 new users have signed up today',
       'New application version deployed to AppStore',
       '2 users blocked due to login attempts',
@@ -56,6 +63,7 @@ export const userExamples: Record<Type, DummyData> = {
       'application is down',
       'application is up',
     ]
+    /**/
   },
   sales: {
     user: {
