@@ -22,7 +22,6 @@ example output:
 ["navigate", "/"]
 ["focus", "nav_groups"]
 ["click", "nav_groups"]
-["click", "add_groups_button"]
 ["focus", "add_groups_button"]
 ["click", "add_groups_button"]
 ["focus", "group_name_input"]

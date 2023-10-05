@@ -46,7 +46,7 @@ export const txtToCmd = async (serverResponse: Response, userCommand: string) =>
     const secondResponse = await openai.chat.completions.create({
       model,
       messages: messages,
-      temperature: 0.8,
+      temperature: 0.7,
       stream: true,  // stream the response back from GPT
     });
 
@@ -71,6 +71,7 @@ export const txtToCmd = async (serverResponse: Response, userCommand: string) =>
  */
 const streamBufferToResponse = async (serverResponse: Response, iterator: AsyncIterator<ChatCompletionChunk>) => {
   console.log('Loop over response iterator')
+  let fullMsg = ''
   let buffer = ''
   let m = await iterator.next()
 
@@ -79,15 +80,14 @@ const streamBufferToResponse = async (serverResponse: Response, iterator: AsyncI
       return m.value
     }
     buffer += m.value.choices[0].delta.content ?? ''
+    fullMsg += m.value.choices[0].delta.content ?? ''
 
-    const regex = /\[\s*\"([^']*)\"\s*,\s*\"([^']*)\"\s*\]/g;
+    const regex = /\["([^"]+)",[ ]+?(((\d+)\])|("([^"\]])+"\]))/;
     let match;
     while ((match = regex.exec(buffer)) !== null) {
-      const action = match[1];
-      const param = match[2];
+      const [action, param] = JSON.parse(match[0])
 
-      buffer = buffer.slice(match.index + match[0].length);
-      buffer = "";
+      buffer = buffer.slice(match.index + match[0].length).trim();
 
       const actionStr = JSON.stringify({ action, param }).trim()
       console.log('- ', actionStr)
@@ -97,9 +97,11 @@ const streamBufferToResponse = async (serverResponse: Response, iterator: AsyncI
   }
 
   if(buffer.length > 0) {
-    console.log('buffer not empty, writing to response')
+    console.log('buffer not empty, writing to response', buffer)
     serverResponse.write(JSON.stringify({"action":"message", "param": buffer}))
   }
 
+
+  console.log("full message", fullMsg)
   console.log('Finish streaming response')
 }

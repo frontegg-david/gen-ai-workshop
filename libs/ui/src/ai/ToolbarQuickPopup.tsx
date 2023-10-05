@@ -17,14 +17,14 @@ const renderResults = (execute: () => void, results: ResultRow[]) => {
   let hasMessage = results.find(r => r.action === 'message');
 
   if (hasError) {
-    return <Box textAlign="center" p={4} width="100%">
-      <Typography level="body-lg" color={'danger'}>{hasError.param}</Typography>
+    return <Box textAlign="left" p={4} width="100%">
+      <Typography level="body-md" whiteSpace="pre-wrap" color={'danger'}>{hasError.param}</Typography>
     </Box>
   }
 
   if (hasMessage) {
-    return <Box textAlign="center" p={4} width="100%">
-      <Typography level="body-lg" color={'warning'}>{hasMessage.param}</Typography>
+    return <Box textAlign="left" p={4} width="100%">
+      <Typography level="body-md" whiteSpace="pre-wrap" color={'warning'}>{hasMessage.param}</Typography>
     </Box>
   }
 
@@ -147,13 +147,22 @@ export const ToolbarQuickPopup: FC = () => {
     function waitFor(selector: string): any {
       console.log('waiting for selector', selector)
       return new Promise((resolve) => {
+
+        let observer: MutationObserver | null = null;
+        const timeout = setTimeout(() => {
+          observer?.disconnect();
+          resolve(null);
+        }, 1000)
+
         if (document.querySelector(selector)) {
           resolve(document.querySelector(selector));
+          clearTimeout(timeout)
         } else {
-          const observer = new MutationObserver(() => {
+          observer = new MutationObserver(() => {
             if (document.querySelector(selector)) {
               resolve(document.querySelector(selector));
-              observer.disconnect();
+              observer?.disconnect();
+              clearTimeout(timeout)
             }
           });
           observer.observe(document.body, {
@@ -168,30 +177,34 @@ export const ToolbarQuickPopup: FC = () => {
 
       for (const { action, param } of result) {
 
-        await new Promise(resolve => setTimeout(resolve, 500));
         switch (action) {
           case 'navigate':
             navigate(param);
             break;
           case 'find':
           case 'focus':
-            (await waitFor('[data-testid="' + param + '"]'))?.focus();
+            let elem = await waitFor('[data-testid="' + param + '"]')
+            if (!elem) {
+              break;
+            }
+            elem.focus()
+            await new Promise(resolve => setTimeout(resolve, 1000));
             break;
           case 'click':
-
             const button = (await waitFor('[data-testid="' + param + '"]'));
 
             if (!button) {
-              return;
+              break;
             }
             simulatedClick(button);
+            await new Promise(resolve => setTimeout(resolve, 1000));
             break;
           case 'fill':
             const input = document.activeElement as HTMLInputElement;
             input.value = param;
             const event = new Event('input', { bubbles: true, cancelable: true });
             input.dispatchEvent(event);
-
+            await new Promise(resolve => setTimeout(resolve, 1000));
             break;
         }
       }

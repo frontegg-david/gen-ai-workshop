@@ -5,7 +5,6 @@ import { generateReportExample } from './prompt-example';
 
 const openai = new OpenAI({
   apiKey: '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',
-  // organization: 'org-JtS1lr9q306h8n8CgRUri5AE'
 });
 
 const model = 'gpt-3.5-turbo-16k';

@@ -101,7 +101,7 @@ export const userExamples: Record<Type, DummyData> = {
   }
 }
 
-const DummyDataContext = createContext<DummyData>(userExamples.admin)
+const DummyDataContext = createContext<DummyData>({} as DummyData)
 
 export const DummyDataProvider = DummyDataContext.Provider
 export const useDummyData = () => {

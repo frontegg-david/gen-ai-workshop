@@ -1,8 +1,5 @@
 import { Pinecone } from '@pinecone-database/pinecone';
 import OpenAI from 'openai';
-import { readFileSync } from 'fs';
-import { join } from 'path';
-import process from 'process';
 
 const openai = new OpenAI({
   apiKey: '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'
@@ -22,7 +19,7 @@ export async function generateEmbedding(input: string): Promise<Array<number>> {
 export async function embedding() {
   const pinecone = new Pinecone({
     environment: 'gcp-starter',
-    apiKey: '07e45e2e-033f-48b1-b743-c674316b1607',
+    apiKey: '***************',
   });
 
   const index = pinecone.Index('flows');
